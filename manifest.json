@@ -1,0 +1,46 @@
+{
+    "manifest_version": 2,
+    "name": "Wikipedia Link Cleaner",
+    "version": "1.0",
+    "description": "Wikipedia sayfalarındaki linkleri temizler ve okumayı kolaylaştırır.",
+    "permissions": [
+        "storage",
+        "contextMenus",
+        "*://*.wikipedia.org/wiki/*"
+    ],
+    "background": {
+        "scripts": [
+            "background.js"
+        ]
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*.wikipedia.org/wiki/*"
+            ],
+            "js": [
+                "content.js"
+            ],
+            "run_at": "document_idle"
+        }
+    ],
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "wiki-cleaner@yakupemre",
+            "strict_min_version": "142.0",
+            "data_collection_permissions": {
+                "required": [
+                    "none"
+                ]
+            }
+        }
+    },
+    "browser_action": {
+        "default_icon": "icons/48.png",
+        "default_title": "Wikipedia Link Cleaner Ayarları",
+        "default_popup": "popup.html"
+    },
+    "icons": {
+        "48": "icons/48.png"
+    }
+}
