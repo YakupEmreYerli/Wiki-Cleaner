@@ -66,7 +66,7 @@ jobs:
       - name: Eklentiyi paketle
         run: npm run build
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: wiki-cleaner-xpi
           path: web-ext-artifacts/*.zip
