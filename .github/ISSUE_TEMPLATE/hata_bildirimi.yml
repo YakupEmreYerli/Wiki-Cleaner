@@ -1,0 +1,66 @@
+name: Hata bildirimi
+description: Eklentinin beklenmedik davrandığı bir durumu bildir
+title: "[Hata]: "
+labels: ["hata"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Teşekkürler! Hatayı yeniden üretebilmemiz için aşağıdaki alanları doldur.
+
+  - type: textarea
+    id: ozet
+    attributes:
+      label: Ne oldu?
+      description: Beklenen davranış ile gözlenen davranışı yaz.
+      placeholder: "Bağlantılar temizlenmesi gerekirken tıklanabilir kalıyor."
+    validations:
+      required: true
+
+  - type: input
+    id: sayfa
+    attributes:
+      label: Wikipedia sayfası
+      description: Hatanın görüldüğü makalenin tam adresi.
+      placeholder: "https://tr.wikipedia.org/wiki/Ankara"
+    validations:
+      required: true
+
+  - type: textarea
+    id: adimlar
+    attributes:
+      label: Yeniden üretme adımları
+      value: |
+        1. 
+        2. 
+        3. 
+    validations:
+      required: true
+
+  - type: input
+    id: firefox
+    attributes:
+      label: Firefox sürümü
+      placeholder: "142.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kontrol
+    attributes:
+      label: Eklenti hangi yolla açık/kapalıydı?
+      options:
+        - Araç çubuğu paneli
+        - Sağ tık menüsü
+        - Bilmiyorum
+    validations:
+      required: true
+
+  - type: textarea
+    id: konsol
+    attributes:
+      label: Konsol çıktısı
+      description: "about:debugging üzerinden eklentinin konsolunda hata varsa buraya yapıştır."
+      render: text
+    validations:
+      required: false

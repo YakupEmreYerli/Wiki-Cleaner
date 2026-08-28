@@ -1,0 +1,34 @@
+name: Özellik önerisi
+description: Yeni bir davranış veya iyileştirme öner
+title: "[Öneri]: "
+labels: ["öneri"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Hangi sorunu çözüyor?
+      description: Önerinin çıkış noktası olan okuma deneyimi sorununu anlat.
+    validations:
+      required: true
+
+  - type: textarea
+    id: cozum
+    attributes:
+      label: Önerilen çözüm
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatifler
+    attributes:
+      label: Denenen veya düşünülen alternatifler
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: kapsam
+    attributes:
+      label: Kapsam
+      options:
+        - label: Bu öneri eklentinin veri toplamamasını gerektiren yapısını bozmuyor.
+          required: true
