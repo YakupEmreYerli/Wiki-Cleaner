@@ -101,7 +101,7 @@ karşılar ve gerçek `popup.html` dosyasını yükler; böylece HTML ile betik
 arasındaki `toggle-status` sözleşmesi de doğrulanır. Ayrıntılar için
 [CONTRIBUTING.md](CONTRIBUTING.md).
 
-CI her push ve pull request'te Node 20/22/24 üzerinde testleri, ardından
+CI her push ve pull request'te Node 22/24 üzerinde testleri, ardından
 `web-ext lint` ve bağımlılık denetimini çalıştırır; ikisi de geçerse paketi üretip
 artefakt olarak yükler.
 

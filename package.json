@@ -23,7 +23,7 @@
     "url": "https://github.com/YakupEmreYerli/Wiki-Cleaner/issues"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "scripts": {
     "test": "node --test test/*.test.js",
@@ -31,7 +31,7 @@
     "build": "web-ext build --source-dir . --overwrite-dest --ignore-files \"node_modules/**\" \"test/**\" \"web-ext-artifacts/**\" package.json package-lock.json"
   },
   "devDependencies": {
-    "jsdom": "^25.0.1",
+    "jsdom": "^30.0.1",
     "web-ext": "^10.6.0"
   }
 }

@@ -5,7 +5,7 @@ Teşekkürler! Bu proje küçük ve bağımlılıksız kalmayı hedefliyor; katk
 
 ## Ortamı kurma
 
-Node 20 veya üzeri gerekir (CI 20, 22 ve 24 sürümlerinde çalışır).
+Node 22 veya üzeri gerekir; `jsdom` 30 bunu şart koşuyor ve CI 22 ile 24 sürümlerinde çalışır.
 
 ```bash
 git clone https://github.com/YakupEmreYerli/Wiki-Cleaner.git

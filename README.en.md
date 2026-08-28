@@ -99,7 +99,7 @@ The tests back the `chrome.*` APIs with a narrow stub in `test/helpers.js` and l
 the real `popup.html`, which also verifies the `toggle-status` contract between the
 markup and the script. See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
-CI runs the tests on Node 20/22/24 for every push and pull request, then runs
+CI runs the tests on Node 22/24 for every push and pull request, then runs
 `web-ext lint` and the dependency audit; if both pass it builds the package and
 uploads it as an artifact.
 
