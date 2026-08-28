@@ -13,9 +13,38 @@ function boot({ storage = {}, tabs = [] } = {}) {
 
 const WIKI_TAB = [{ id: 7, url: 'https://tr.wikipedia.org/wiki/Ankara' }];
 
-test('popup.html beklenen anahtarı taşır', () => {
+test('popup.html betiğin beklediği tüm kimlikleri taşır', () => {
   const { doc } = boot();
-  assert.ok(doc.getElementById('toggle-status'), 'toggle-status elemanı yok');
+  for (const id of ['toggle-status', 'status-container', 'status-state']) {
+    assert.ok(doc.getElementById(id), `${id} elemanı yok`);
+  }
+});
+
+test('panel simgesi manifestte beyan edilen dosyayı gösterir', () => {
+  const { doc } = boot();
+  assert.equal(doc.querySelector('.header img').getAttribute('src'), 'icons/48.png');
+});
+
+test('açık durumda durum metni ve veri özniteliği yazılır', () => {
+  const { doc } = boot();
+  assert.equal(doc.getElementById('status-state').textContent, 'Açık');
+  assert.equal(doc.getElementById('status-container').dataset.state, 'on');
+});
+
+test('kapalı durumda durum metni ve veri özniteliği yazılır', () => {
+  const { doc } = boot({ storage: { enabled: false } });
+  assert.equal(doc.getElementById('status-state').textContent, 'Kapalı');
+  assert.equal(doc.getElementById('status-container').dataset.state, 'off');
+});
+
+test('anahtar çevrildiğinde durum göstergesi güncellenir', () => {
+  const { doc } = boot({ tabs: WIKI_TAB });
+  const input = doc.getElementById('toggle-status');
+  input.checked = false;
+  input.dispatchEvent(new doc.defaultView.Event('change'));
+
+  assert.equal(doc.getElementById('status-state').textContent, 'Kapalı');
+  assert.equal(doc.getElementById('status-container').dataset.state, 'off');
 });
 
 test('depolama boşken anahtar açık görünür', () => {

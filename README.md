@@ -94,6 +94,7 @@ npm install
 | `npm test` | `node:test` + `jsdom` ile birim testlerini çalıştırır (33 test) |
 | `npm run lint` | `web-ext lint` ile eklentiyi doğrular, uyarıları hata sayar |
 | `npm run build` | Yayına hazır `.zip` paketini `web-ext-artifacts/` altında üretir |
+| `npm run icons` | `icons/*.svg` kaynaklarından PNG simgeleri yeniden üretir (`librsvg` gerekir) |
 | `npm audit --audit-level=critical` | Geliştirme bağımlılıklarını denetler |
 
 Testler `chrome.*` API'lerini `test/helpers.js` içindeki dar bir sahte nesneyle
@@ -130,7 +131,11 @@ content.js         DOM manipülasyonu, nötrleştirme/geri alma, MutationObserve
 background.js      Sağ tık menüsü ve varsayılan durum kurulumu
 popup.html         Araç çubuğu panelinin işaretlemesi ve stili
 popup.js           Panel anahtarının durum yönetimi
-icons/48.png       48×48 eklenti simgesi
+icons/icon.svg     Simgenin kaynağı (32 piksel ve üstü)
+icons/icon-small.svg  16 piksel için sadeleştirilmiş kaynak
+icons/*.png        SVG'lerden üretilen 16/32/48/96/128 piksel simgeler
+tools/render-icons.sh  Simge PNG'lerini üreten betik
+web-ext-config.mjs Paket dışında kalacak geliştirme dosyalarının listesi
 test/              node:test + jsdom birim testleri
 ```
 

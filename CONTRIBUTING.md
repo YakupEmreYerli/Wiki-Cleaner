@@ -47,6 +47,18 @@ API'lerini doğrudan kullandığı için iki yardımcı vardır:
 Davranış değiştiren her pull request'e test eşlik etmeli. Bir hata düzeltiyorsan,
 testin düzeltmeyi geri aldığında gerçekten kırmızıya döndüğünü doğrula.
 
+## Simgeler
+
+Simgelerin kaynağı `icons/icon.svg` (32 piksel ve üstü) ile `icons/icon-small.svg`
+(16 piksel için sadeleştirilmiş sürüm). PNG'ler bunlardan üretilir:
+
+```bash
+npm run icons   # librsvg / rsvg-convert gerekir
+```
+
+PNG'leri elle düzenleme; SVG'yi değiştirip betiği yeniden çalıştır.
+`test/manifest.test.js` her PNG'nin beyan edilen ölçekte olduğunu doğrular.
+
 ## Kod tarzı
 
 - Mevcut dosyaların girinti ve adlandırma alışkanlıklarını sürdür.

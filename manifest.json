@@ -36,11 +36,19 @@
         }
     },
     "browser_action": {
-        "default_icon": "icons/48.png",
+        "default_icon": {
+            "16": "icons/16.png",
+            "32": "icons/32.png",
+            "48": "icons/48.png"
+        },
         "default_title": "Wikipedia Link Cleaner Ayarları",
         "default_popup": "popup.html"
     },
     "icons": {
-        "48": "icons/48.png"
+        "16": "icons/16.png",
+        "32": "icons/32.png",
+        "48": "icons/48.png",
+        "96": "icons/96.png",
+        "128": "icons/128.png"
     }
 }

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="Wikipedia Link Cleaner">
+  <title>Wikipedia Link Cleaner</title>
+  <defs>
+    <linearGradient id="wlc-bg" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0" stop-color="#46579E"/>
+      <stop offset="1" stop-color="#1C2340"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="128" height="128" rx="29" fill="url(#wlc-bg)"/>
+
+  <!-- Wikipedia'yı çağrıştıran W; tek parça çizgi olarak, yazı tipinden bağımsız -->
+  <polyline points="21,28 42,83 64,46 86,83 107,28" fill="none" stroke="#FFFFFF"
+            stroke-width="13.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Bağlantı alt çizgisi: eklentinin temizlediği şeyin görsel karşılığı -->
+  <line x1="23" y1="103" x2="105" y2="103" stroke="#8CBCFF" stroke-width="9"
+        stroke-linecap="round"/>
+</svg>

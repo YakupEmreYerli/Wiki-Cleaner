@@ -27,8 +27,9 @@
   },
   "scripts": {
     "test": "node --test test/*.test.js",
-    "lint": "web-ext lint --source-dir . --warnings-as-errors --ignore-files \"node_modules/**\" \"test/**\" \"web-ext-artifacts/**\" package.json package-lock.json",
-    "build": "web-ext build --source-dir . --overwrite-dest --ignore-files \"node_modules/**\" \"test/**\" \"web-ext-artifacts/**\" package.json package-lock.json"
+    "lint": "web-ext lint --source-dir .",
+    "build": "web-ext build --source-dir .",
+    "icons": "./tools/render-icons.sh"
   },
   "devDependencies": {
     "jsdom": "^30.0.1",

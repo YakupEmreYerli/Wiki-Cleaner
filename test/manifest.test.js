@@ -20,11 +20,31 @@ test('manifestte adı geçen tüm dosyalar mevcut', () => {
     ...manifest.background.scripts,
     ...manifest.content_scripts.flatMap((cs) => cs.js),
     manifest.browser_action.default_popup,
-    manifest.browser_action.default_icon,
+    ...Object.values(manifest.browser_action.default_icon),
     ...Object.values(manifest.icons)
   ];
   for (const file of referenced) {
     assert.ok(fs.existsSync(path.join(ROOT, file)), `${file} bulunamadı`);
+  }
+});
+
+test('simge seti Firefox\'un istediği tüm ölçekleri kapsar', () => {
+  assert.deepEqual(Object.keys(manifest.icons), ['16', '32', '48', '96', '128']);
+  assert.deepEqual(Object.keys(manifest.browser_action.default_icon), ['16', '32', '48']);
+});
+
+test('her PNG simge beyan edilen ölçekte üretilmiş', () => {
+  // PNG başlığı: 8 bayt imza + 4 bayt uzunluk + "IHDR" + 4 bayt en + 4 bayt boy
+  for (const [size, file] of Object.entries(manifest.icons)) {
+    const header = fs.readFileSync(path.join(ROOT, file)).subarray(16, 24);
+    assert.equal(header.readUInt32BE(0), Number(size), `${file} eni yanlış`);
+    assert.equal(header.readUInt32BE(4), Number(size), `${file} boyu yanlış`);
+  }
+});
+
+test('PNG simgelerin SVG kaynakları depoda duruyor', () => {
+  for (const svg of ['icons/icon.svg', 'icons/icon-small.svg']) {
+    assert.ok(fs.existsSync(path.join(ROOT, svg)), `${svg} bulunamadı`);
   }
 });
 

@@ -93,6 +93,7 @@ npm install
 | `npm test` | Runs the unit tests with `node:test` + `jsdom` (33 tests) |
 | `npm run lint` | Validates the add-on with `web-ext lint`, treating warnings as errors |
 | `npm run build` | Produces a distributable `.zip` in `web-ext-artifacts/` |
+| `npm run icons` | Re-renders the PNG icons from `icons/*.svg` (requires `librsvg`) |
 | `npm audit --audit-level=critical` | Audits the development dependencies |
 
 The tests back the `chrome.*` APIs with a narrow stub in `test/helpers.js` and load
@@ -128,7 +129,11 @@ content.js         DOM work: neutralise/restore plus the MutationObserver
 background.js      Context menu and default-state setup
 popup.html         Markup and styling for the toolbar panel
 popup.js           State handling for the panel switch
-icons/48.png       48×48 add-on icon
+icons/icon.svg     Icon source (32 px and up)
+icons/icon-small.svg  Simplified source for 16 px
+icons/*.png        16/32/48/96/128 px icons rendered from the SVGs
+tools/render-icons.sh  Script that renders the icon PNGs
+web-ext-config.mjs Development files kept out of the package
 test/              node:test + jsdom unit tests
 ```
 
