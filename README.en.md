@@ -2,13 +2,18 @@
 
 [![CI](https://github.com/YakupEmreYerli/Wiki-Cleaner/actions/workflows/ci.yml/badge.svg)](https://github.com/YakupEmreYerli/Wiki-Cleaner/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![AMO](https://img.shields.io/amo/v/wiki-cleaner?label=Firefox%20Add-ons&logo=firefoxbrowser&logoColor=white&color=FF7139)](https://addons.mozilla.org/firefox/addon/wiki-cleaner/)
 [![Firefox](https://img.shields.io/badge/Firefox-%E2%89%A5%20142.0-FF7139?logo=firefoxbrowser&logoColor=white)](manifest.json)
-[![Manifest](https://img.shields.io/badge/manifest-v2-informational)](manifest.json)
+[![Chrome](https://img.shields.io/badge/Chrome-%E2%89%A5%20120-4285F4?logo=googlechrome&logoColor=white)](manifest.json)
+[![Manifest](https://img.shields.io/badge/manifest-v3-informational)](manifest.json)
 [![Dependencies](https://img.shields.io/badge/runtime%20dependencies-0-success)](package.json)
 
-A Firefox add-on that turns internal Wikipedia links into unclickable plain text
+A browser extension that turns internal Wikipedia links into unclickable plain text
 and hides citation markers, so reading an article stops feeling like resisting
 "just one more tab".
+
+It uses Manifest V3, and a single package is declared to run in both Firefox and
+Chrome.
 
 > 🇹🇷 Türkçe sürüm: [README.md](README.md)
 
@@ -72,7 +77,17 @@ Three moving parts:
 
 ## Installation
 
-The add-on is not on AMO yet, so load it as a temporary extension:
+### Firefox
+
+Published on AMO:
+**[addons.mozilla.org/firefox/addon/wiki-cleaner](https://addons.mozilla.org/firefox/addon/wiki-cleaner/)**
+
+### Chrome
+
+Not published on the Chrome Web Store yet. Until then, enable **Developer mode**
+on `chrome://extensions` and use **Load unpacked** on the project directory.
+
+### Developer install (Firefox)
 
 1. Open `about:debugging` in Firefox.
 2. Choose **This Firefox** in the left menu.
@@ -106,9 +121,11 @@ uploads it as an artifact.
 
 ## Known limits
 
-- **Firefox only.** The package is Manifest V2 (`background.scripts`,
-  `browser_action`) and targets Firefox 142.0+ via
-  `browser_specific_settings.gecko`. Current Chrome releases will not load it.
+- **The background is declared twice.** The manifest follows MDN's cross-browser
+  recipe: Chrome uses `background.service_worker`, Firefox uses
+  `background.scripts`. Mozilla's validator therefore emits
+  `BACKGROUND_SERVICE_WORKER_IGNORED`; because that warning is expected, it is
+  allowlisted by name in `tools/lint-extension.mjs`.
 - **Toggling reaches one tab.** Both the panel and the context menu message a
   single tab. Other open Wikipedia tabs keep their previous state until reloaded,
   even though the stored preference updates immediately.

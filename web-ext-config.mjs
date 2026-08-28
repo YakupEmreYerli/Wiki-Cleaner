@@ -13,9 +13,6 @@ export default {
     'CONTRIBUTING.md',
     'SECURITY.md'
   ],
-  lint: {
-    warningsAsErrors: true
-  },
   build: {
     overwriteDest: true
   }

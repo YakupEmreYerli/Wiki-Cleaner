@@ -63,6 +63,8 @@ PNG'leri elle düzenleme; SVG'yi değiştirip betiği yeniden çalıştır.
 
 - Mevcut dosyaların girinti ve adlandırma alışkanlıklarını sürdür.
 - Çalışma zamanı bağımlılığı ekleme; eklenti paketi bağımlılıksız kalmalı.
+- Arka plan betiği hem Chrome service worker'ı hem Firefox event page'i olarak
+  çalışır; `window`, `document` veya `localStorage` kullanma.
 - Yeni izin talep etmekten kaçın. Gerekiyorsa pull request açıklamasında gerekçesini
   yaz — `manifest.json` izin listesi `test/manifest.test.js` tarafından sabitlenmiştir.
 - README ve README.en.md'deki iddialar koddan doğrulanabilir olmalı. Davranışı

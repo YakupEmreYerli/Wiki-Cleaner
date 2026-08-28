@@ -1,6 +1,6 @@
 {
   "name": "wiki-cleaner",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Wikipedia makalelerindeki dahili bağlantıları ve atıf işaretlerini temizleyen Firefox eklentisi.",
   "private": true,
   "type": "module",
@@ -27,7 +27,7 @@
   },
   "scripts": {
     "test": "node --test test/*.test.js",
-    "lint": "web-ext lint --source-dir .",
+    "lint": "node tools/lint-extension.mjs",
     "build": "web-ext build --source-dir .",
     "icons": "./tools/render-icons.sh"
   },

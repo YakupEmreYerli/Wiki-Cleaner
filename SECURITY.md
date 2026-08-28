@@ -4,7 +4,8 @@
 
 | Sürüm | Destek |
 | ----- | ------ |
-| 1.0.x | ✅ |
+| 1.1.x | ✅ |
+| 1.0.x | ❌ |
 
 ## Açık bildirimi
 
@@ -20,9 +21,13 @@ gözlenen etki.
 Bu eklentinin yüzeyi bilinçli olarak dardır ve iddialar `manifest.json` üzerinden
 doğrulanabilir:
 
-- **Çalışma alanı:** yalnızca `*://*.wikipedia.org/wiki/*`. Başka hiçbir sitede
-  içerik betiği çalışmaz.
+- **Çalışma alanı:** yalnızca `*://*.wikipedia.org/wiki/*`. Hem `content_scripts`
+  hem `host_permissions` bu tek kalıbı beyan eder; başka hiçbir sitede içerik
+  betiği çalışmaz.
 - **İzinler:** yalnızca `storage` ve `contextMenus`.
+- **Manifest:** V3. Chrome tarafında arka plan bir service worker'dır; DOM'a,
+  `window`'a veya `localStorage`'a erişmez (`test/background.test.js` bunu
+  doğrular).
 - **Ağ trafiği:** yok. Kod tabanında `fetch`, `XMLHttpRequest` veya harici bir
   uç nokta çağrısı bulunmaz.
 - **Veri toplama:** yok. `browser_specific_settings.gecko.data_collection_permissions.required`

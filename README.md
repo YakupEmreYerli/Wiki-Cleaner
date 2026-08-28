@@ -2,13 +2,18 @@
 
 [![CI](https://github.com/YakupEmreYerli/Wiki-Cleaner/actions/workflows/ci.yml/badge.svg)](https://github.com/YakupEmreYerli/Wiki-Cleaner/actions/workflows/ci.yml)
 [![Lisans: MIT](https://img.shields.io/badge/lisans-MIT-blue.svg)](LICENSE)
+[![AMO](https://img.shields.io/amo/v/wiki-cleaner?label=Firefox%20Add-ons&logo=firefoxbrowser&logoColor=white&color=FF7139)](https://addons.mozilla.org/firefox/addon/wiki-cleaner/)
 [![Firefox](https://img.shields.io/badge/Firefox-%E2%89%A5%20142.0-FF7139?logo=firefoxbrowser&logoColor=white)](manifest.json)
-[![Manifest](https://img.shields.io/badge/manifest-v2-informational)](manifest.json)
+[![Chrome](https://img.shields.io/badge/Chrome-%E2%89%A5%20120-4285F4?logo=googlechrome&logoColor=white)](manifest.json)
+[![Manifest](https://img.shields.io/badge/manifest-v3-informational)](manifest.json)
 [![Bağımlılık](https://img.shields.io/badge/çalışma%20zamanı%20bağımlılığı-0-success)](package.json)
 
 Wikipedia makalelerindeki dahili bağlantıları tıklanamaz düz metne çeviren ve atıf
-işaretlerini gizleyen Firefox eklentisi. Amaç, okurken her mavi kelimenin yarattığı
+işaretlerini gizleyen tarayıcı eklentisi. Amaç, okurken her mavi kelimenin yarattığı
 "bir tık daha" dürtüsünü ortadan kaldırmak.
+
+Manifest V3 kullanır ve tek paket hem Firefox'ta hem Chrome'da çalışacak şekilde
+tanımlanmıştır.
 
 > 🇬🇧 English version: [README.en.md](README.en.md)
 
@@ -73,7 +78,18 @@ Akış üç parçadan oluşur:
 
 ## Kurulum
 
-Eklenti henüz AMO'da yayınlanmadığı için geliştirici modunda yüklenir:
+### Firefox
+
+Eklenti AMO'da yayında:
+**[addons.mozilla.org/firefox/addon/wiki-cleaner](https://addons.mozilla.org/firefox/addon/wiki-cleaner/)**
+
+### Chrome
+
+Chrome Web Store yayını henüz yapılmadı. O zamana kadar `chrome://extensions`
+sayfasında **Geliştirici modu**nu açıp **Paketlenmemiş öğe yükle** ile proje
+dizinini seçebilirsin.
+
+### Geliştirici kurulumu (Firefox)
 
 1. Firefox'ta adres çubuğuna `about:debugging` yaz.
 2. Sol menüden **This Firefox** (Bu Firefox) seçeneğine tıkla.
@@ -108,9 +124,11 @@ artefakt olarak yükler.
 
 ## Bilinen sınırlar
 
-- **Yalnızca Firefox.** Paket Manifest V2 kullanır (`background.scripts`,
-  `browser_action`) ve `browser_specific_settings.gecko` ile Firefox 142.0+
-  hedefler. Güncel Chrome sürümleri bu manifest'i yüklemez.
+- **Arka plan iki farklı biçimde tanımlı.** Manifest, MDN'in çapraz tarayıcı
+  önerisini izler: Chrome `background.service_worker`, Firefox
+  `background.scripts` anahtarını kullanır. Firefox'un doğrulayıcısı bu yüzden
+  `BACKGROUND_SERVICE_WORKER_IGNORED` uyarısı verir; uyarı beklenen olduğu için
+  `tools/lint-extension.mjs` içinde adıyla beyaz listeye alınmıştır.
 - **Açık/kapa yalnızca bir sekmeye ulaşır.** Hem panel hem sağ tık menüsü mesajı
   tek bir sekmeye gönderir. Aynı anda açık diğer Wikipedia sekmeleri yenilenene
   kadar eski durumlarını korur; depodaki tercih ise hemen güncellenir.

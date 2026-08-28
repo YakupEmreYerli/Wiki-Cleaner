@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createChromeStub, loadInWindow } from './helpers.js';
+import { createChromeStub, loadInWindow, readSource } from './helpers.js';
 
 const MENU_ID = 'toggle-wikipedia-links';
 
@@ -13,6 +13,16 @@ function boot({ storage = {} } = {}) {
 const install = (stub) => stub.listeners.onInstalled.forEach((fn) => fn());
 const clickMenu = (stub, info, tab) =>
   stub.listeners.onMenuClicked.forEach((fn) => fn(info, tab));
+
+test('arka plan betiği servis çalışanında var olmayan globalleri kullanmaz', () => {
+  // Chrome MV3 arka planı bir service worker'dır: window, document ve
+  // localStorage orada tanımsızdır. Firefox event page'inde çalışsa bile
+  // aynı dosya Chrome'da yüklendiği için bunlara dokunmamalı.
+  const source = readSource('background.js');
+  for (const global of ['window', 'document', 'localStorage', 'XMLHttpRequest', 'alert']) {
+    assert.doesNotMatch(source, new RegExp(`\\b${global}\\b`), `${global} kullanılmış`);
+  }
+});
 
 test('kurulumda sağ tık menüsü kaydedilir', () => {
   const stub = boot();

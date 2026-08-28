@@ -1,17 +1,20 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "Wikipedia Link Cleaner",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Wikipedia sayfalarındaki linkleri temizler ve okumayı kolaylaştırır.",
     "permissions": [
         "storage",
-        "contextMenus",
+        "contextMenus"
+    ],
+    "host_permissions": [
         "*://*.wikipedia.org/wiki/*"
     ],
     "background": {
         "scripts": [
             "background.js"
-        ]
+        ],
+        "service_worker": "background.js"
     },
     "content_scripts": [
         {
@@ -35,7 +38,8 @@
             }
         }
     },
-    "browser_action": {
+    "minimum_chrome_version": "120",
+    "action": {
         "default_icon": {
             "16": "icons/16.png",
             "32": "icons/32.png",
