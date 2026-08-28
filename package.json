@@ -1,0 +1,37 @@
+{
+  "name": "wiki-cleaner",
+  "version": "1.0.0",
+  "description": "Wikipedia makalelerindeki dahili bağlantıları ve atıf işaretlerini temizleyen Firefox eklentisi.",
+  "private": true,
+  "type": "module",
+  "keywords": [
+    "firefox",
+    "browser-extension",
+    "wikipedia",
+    "focus",
+    "reading",
+    "web-ext"
+  ],
+  "author": "Yakup Emre Yerli",
+  "license": "MIT",
+  "homepage": "https://github.com/YakupEmreYerli/Wiki-Cleaner#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YakupEmreYerli/Wiki-Cleaner.git"
+  },
+  "bugs": {
+    "url": "https://github.com/YakupEmreYerli/Wiki-Cleaner/issues"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "lint": "web-ext lint --source-dir . --warnings-as-errors --ignore-files \"node_modules/**\" \"test/**\" \"web-ext-artifacts/**\" package.json package-lock.json",
+    "build": "web-ext build --source-dir . --overwrite-dest --ignore-files \"node_modules/**\" \"test/**\" \"web-ext-artifacts/**\" package.json package-lock.json"
+  },
+  "devDependencies": {
+    "jsdom": "^25.0.1",
+    "web-ext": "^10.6.0"
+  }
+}
