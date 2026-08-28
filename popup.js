@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         chrome.storage.local.set({ enabled: isEnabled }, () => {
             chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-                if (tabs[0] && tabs[0].url.includes('wikipedia.org')) {
+                if (tabs[0] && tabs[0].url && tabs[0].url.includes('wikipedia.org')) {
                     chrome.tabs.sendMessage(tabs[0].id, { action: "toggleLinks", enabled: isEnabled });
                 }
             });
