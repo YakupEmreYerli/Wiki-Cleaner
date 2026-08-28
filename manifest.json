@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Wikipedia Link Cleaner",
-    "version": "1.0",
+    "version": "1.0.0",
     "description": "Wikipedia sayfalarındaki linkleri temizler ve okumayı kolaylaştırır.",
     "permissions": [
         "storage",
