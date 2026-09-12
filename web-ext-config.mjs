@@ -11,7 +11,9 @@ export default {
     'package-lock.json',
     'web-ext-config.mjs',
     'CONTRIBUTING.md',
-    'SECURITY.md'
+    'SECURITY.md',
+    'CLAUDE.md',
+    'AGENTS.md'
   ],
   build: {
     overwriteDest: true
