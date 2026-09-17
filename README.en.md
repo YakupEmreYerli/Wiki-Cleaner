@@ -1,3 +1,5 @@
+<img src="icons/icon.svg" width="72" height="72" alt="Wiki Cleaner logo" />
+
 # Wiki Cleaner
 
 [![CI](https://github.com/YakupEmreYerli/Wiki-Cleaner/actions/workflows/ci.yml/badge.svg)](https://github.com/YakupEmreYerli/Wiki-Cleaner/actions/workflows/ci.yml)
@@ -19,9 +21,9 @@ Chrome. The interface follows the browser language: Turkish or English.
 
 > 🇹🇷 Türkçe sürüm: [README.md](README.md)
 
-![Before and after: links in a Wikipedia article turn into plain text](docs/screenshots/en-before-after.png)
+![Wiki Cleaner: every blue word is another tab](docs/store/en-1.png)
 
-<p align="center"><img src="docs/screenshots/en-popup.png" width="288" alt="Toolbar popup: link cleaning on" /></p>
+![Before and after: the same paragraph with links turned into plain text](docs/store/en-2.png)
 
 ## What it does
 
@@ -161,7 +163,8 @@ icons/*.png        16/32/48/96/128 px icons rendered from the SVGs
 tools/render-icons.sh  Script that renders the icon PNGs
 web-ext-config.mjs Development files kept out of the package
 test/              node:test + jsdom unit tests
-docs/screenshots/  README and store images (not packaged)
+docs/store/        Store and README images, TR and EN (not packaged)
+docs/brand/        Brand kit: logo, colours, typefaces (not packaged)
 ```
 
 ## License

@@ -1,3 +1,5 @@
+<img src="icons/icon.svg" width="72" height="72" alt="Wiki Cleaner logosu" />
+
 # Wiki Cleaner
 
 [![CI](https://github.com/YakupEmreYerli/Wiki-Cleaner/actions/workflows/ci.yml/badge.svg)](https://github.com/YakupEmreYerli/Wiki-Cleaner/actions/workflows/ci.yml)
@@ -19,9 +21,9 @@ tanımlanmıştır. Arayüz tarayıcının diline göre Türkçe ya da İngilizc
 
 > 🇬🇧 English version: [README.en.md](README.en.md)
 
-![Önce ve sonra: Wikipedia makalesindeki bağlantılar düz metne dönüşür](docs/screenshots/tr-before-after.png)
+![Wiki Cleaner: her mavi kelime yeni bir sekme](docs/store/tr-1.png)
 
-<p align="center"><img src="docs/screenshots/tr-popup.png" width="288" alt="Araç çubuğu paneli: bağlantı temizleme açık" /></p>
+![Önce ve sonra: aynı paragraf, bağlantılar düz metne dönmüş](docs/store/tr-2.png)
 
 ## Ne yapar?
 
@@ -162,7 +164,8 @@ icons/*.png        SVG'lerden üretilen 16/32/48/96/128 piksel simgeler
 tools/render-icons.sh  Simge PNG'lerini üreten betik
 web-ext-config.mjs Paket dışında kalacak geliştirme dosyalarının listesi
 test/              node:test + jsdom birim testleri
-docs/screenshots/  README ve mağaza görselleri (pakete girmez)
+docs/store/        Mağaza ve README görselleri, TR ve EN (pakete girmez)
+docs/brand/        Marka kiti: logo, renkler, yazı tipleri (pakete girmez)
 ```
 
 ## Lisans
