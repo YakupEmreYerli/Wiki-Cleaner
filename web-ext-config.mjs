@@ -6,6 +6,8 @@ export default {
     'test/**',
     'tools/**',
     'web-ext-artifacts/**',
+    'imzali/**',
+    'CHANGELOG.md',
     'icons/*.svg',
     'docs/**',
     'package.json',

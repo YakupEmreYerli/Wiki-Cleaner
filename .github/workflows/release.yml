@@ -1,13 +1,26 @@
 name: Yayın
 
-# `v1.2.0` gibi bir etiket itildiğinde: testler, lint, AMO'ya listelenen sürüm
-# olarak gönderim ve GitHub sürümü. Etiket manifest sürümüyle aynı olmalı.
+# `v1.3.0` gibi bir etiket itildiğinde ya da elle bir etiket için çalıştırıldığında:
+# testler, lint, AMO'ya listelenen sürüm olarak gönderim ve imzalı .xpi ile GitHub
+# sürümü. AMO gönderimi başarısız olursa sürüm açılmaz; elle yeniden çalıştırılır.
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Yayımlanacak etiket (ör. v1.3.0)'
+        required: true
 
 permissions:
   contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+env:
+  TAG: ${{ inputs.tag || github.ref_name }}
 
 jobs:
   release:
@@ -15,6 +28,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ env.TAG }}
+
+      # Sürüm notları ana daldaki CHANGELOG.md'den okunur; eski bir etiket yeniden
+      # yayımlanırken de güncel notlar kullanılır.
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          path: ana
+          sparse-checkout: CHANGELOG.md
+          sparse-checkout-cone-mode: false
 
       - uses: actions/setup-node@v7
         with:
@@ -26,10 +50,20 @@ jobs:
       - name: Etiket manifest sürümüyle aynı mı
         run: |
           surum="v$(node -p "require('./manifest.json').version")"
-          if [ "$surum" != "$GITHUB_REF_NAME" ]; then
-            echo "::error::Etiket $GITHUB_REF_NAME, manifest $surum"
+          if [ "$surum" != "$TAG" ]; then
+            echo "::error::Etiket $TAG, manifest $surum"
             exit 1
           fi
+
+      - name: Değişiklik günlüğünde bu sürüm var mı
+        run: |
+          awk -v v="## ${TAG#v}" '$0==v{f=1;next} /^## /{f=0} f' ana/CHANGELOG.md > notlar.md
+          if [ ! -s notlar.md ]; then
+            echo "::error::CHANGELOG.md içinde '## ${TAG#v}' bölümü yok"
+            exit 1
+          fi
+
+      - run: rm -rf ana
 
       - name: Birim testleri
         run: npm test
@@ -37,34 +71,25 @@ jobs:
       - name: Eklenti doğrulaması
         run: npm run lint
 
-      - name: Paket
-        run: npm run build
-
-      # Listelenen sürüm AMO incelemesinden geçer. İnceleme 15 dakikada bitmezse
-      # gönderim yine de yapılmıştır; imzalı dosya bu durumda sürüme eklenmez.
+      # Listelenen sürüm AMO incelemesinden geçer; imzalı dosya gelmeden sürüm açılmaz.
       - name: AMO'ya gönder
-        id: amo
-        continue-on-error: true
         env:
           WEB_EXT_API_KEY: ${{ secrets.AMO_JWT_ISSUER }}
           WEB_EXT_API_SECRET: ${{ secrets.AMO_JWT_SECRET }}
-        run: npx web-ext sign --channel listed --approval-timeout 900000 --artifacts-dir web-ext-artifacts
+        run: npx web-ext sign --channel listed --approval-timeout 1800000 --artifacts-dir imzali
 
       - name: GitHub sürümü
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           {
-            echo "Firefox: https://addons.mozilla.org/firefox/addon/wiki-cleaner/"
+            echo "**Install:** [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/wiki-cleaner/), or download the signed \`.xpi\` below."
             echo
-            if [ "${{ steps.amo.outcome }}" != "success" ]; then
-              echo "> AMO gönderimi incelemede ya da başarısız; imzalı .xpi bu sürüme eklenmedi."
-              echo
-            fi
-          } > notlar.md
-          gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" \
-            --notes-file notlar.md --generate-notes web-ext-artifacts/*
-
-      - name: AMO sonucu
-        if: steps.amo.outcome != 'success'
-        run: echo "::warning::AMO gönderimi tamamlanmadı, günlüğe bak."
+            cat notlar.md
+          } > govde.md
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" imzali/*.xpi --clobber
+            gh release edit "$TAG" --title "Wiki Cleaner ${TAG#v}" --notes-file govde.md --draft=false --latest
+          else
+            gh release create "$TAG" --title "Wiki Cleaner ${TAG#v}" --notes-file govde.md imzali/*.xpi
+          fi
