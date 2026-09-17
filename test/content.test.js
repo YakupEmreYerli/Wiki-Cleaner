@@ -29,6 +29,34 @@ test('makale gövdesindeki /wiki/ bağlantıları tıklanamaz hale gelir', () =>
   assert.equal(link.style.textDecoration, 'none');
 });
 
+test('tam adresli ve göreli makale bağlantıları da temizlenir', () => {
+  // Wikipedia 2026'dan beri makale bağlantılarını çoğunlukla tam adresle veriyor.
+  const { doc } = boot();
+  for (const [id, href] of [
+    ['absolute-link', 'https://tr.wikipedia.org/wiki/Bursa'],
+    ['protocol-relative-link', '//tr.wikipedia.org/wiki/Edirne'],
+    ['dot-relative-link', './Konya']
+  ]) {
+    const link = doc.getElementById(id);
+    assert.equal(link.hasAttribute('href'), false, `${id} temizlenmedi`);
+    assert.equal(link.dataset.originalHref, href);
+  }
+});
+
+test('başka dildeki Wikipedia ve makale dışı sayfa bağlantıları korunur', () => {
+  const { doc } = boot();
+  assert.equal(doc.getElementById('other-language-link').getAttribute('href'),
+    'https://en.wikipedia.org/wiki/Bursa');
+  assert.ok(doc.getElementById('edit-page-link').hasAttribute('href'));
+});
+
+test('tam adresli bağlantı geri yüklenince özgün adresine döner', () => {
+  const { doc, stub } = boot();
+  toggle(stub, false);
+  assert.equal(doc.getElementById('absolute-link').getAttribute('href'),
+    'https://tr.wikipedia.org/wiki/Bursa');
+});
+
 test('dış bağlantılar ve çapa bağlantıları korunur', () => {
   const { doc } = boot();
   assert.equal(doc.getElementById('external-link').getAttribute('href'), 'https://example.com/x');
@@ -91,6 +119,14 @@ test('sonradan eklenen bağlantılar MutationObserver ile temizlenir', async () 
   holder.innerHTML = '<p><a id="late-link" href="/wiki/Bursa">Bursa</a></p>';
   await flush();
   assert.equal(doc.getElementById('late-link').hasAttribute('href'), false);
+});
+
+test('sonradan eklenen tam adresli bağlantılar da temizlenir', async () => {
+  const { doc } = boot();
+  doc.getElementById('lazy').innerHTML =
+    '<p><a id="late-absolute" href="https://tr.wikipedia.org/wiki/Bolu">Bolu</a></p>';
+  await flush();
+  assert.equal(doc.getElementById('late-absolute').hasAttribute('href'), false);
 });
 
 test('doğrudan eklenen <a> düğümü de temizlenir', async () => {

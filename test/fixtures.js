@@ -9,6 +9,11 @@ export const ARTICLE_HTML = `<!DOCTYPE html>
       <a id="styled-link" href="/wiki/İzmir" style="color: rgb(255, 0, 0);">İzmir</a>
       <a id="external-link" href="https://example.com/x">dış bağlantı</a>
       <a id="anchor-link" href="#kaynakca">bölüme git</a>
+      <a id="absolute-link" href="https://tr.wikipedia.org/wiki/Bursa">Bursa</a>
+      <a id="protocol-relative-link" href="//tr.wikipedia.org/wiki/Edirne">Edirne</a>
+      <a id="dot-relative-link" href="./Konya">Konya</a>
+      <a id="other-language-link" href="https://en.wikipedia.org/wiki/Bursa">Bursa (en)</a>
+      <a id="edit-page-link" href="https://tr.wikipedia.org/w/index.php?title=Bursa&amp;action=edit">kaynağı değiştir</a>
       <sup id="ref" class="reference"><a id="ref-link" href="/wiki/Kaynak">[1]</a></sup>
       <sup id="plain-sup"><a id="sup-link" href="/wiki/Not">not</a></sup>
       <span class="mw-editsection"><a id="edit-link" href="/wiki/Duzenle">düzenle</a></span>

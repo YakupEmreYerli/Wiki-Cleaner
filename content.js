@@ -30,10 +30,24 @@ function removeHideStyle() {
     }
 }
 
-function shouldClean(link) {
-    if (!link.getAttribute('href') || !link.getAttribute('href').startsWith('/wiki/')) {
+// Wikipedia makale bağlantılarını göreli (/wiki/X, ./X) ya da tam adresle
+// (https://tr.wikipedia.org/wiki/X) verebilir. Adres çözülür; yalnızca aynı
+// alan adındaki /wiki/ sayfaları makale bağlantısı sayılır.
+function isArticleLink(link) {
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('#')) return false;
+
+    let url;
+    try {
+        url = new URL(href, location.href);
+    } catch {
         return false;
     }
+    return url.hostname === location.hostname && url.pathname.startsWith('/wiki/');
+}
+
+function shouldClean(link) {
+    if (!isArticleLink(link)) return false;
 
     return !EXCLUDE_SELECTORS.some(selector => link.closest(selector));
 }
@@ -77,7 +91,7 @@ function cleanAllLinks() {
     const contentArea = document.querySelector('#mw-content-text');
     if (!contentArea) return;
 
-    const links = contentArea.querySelectorAll('a[href^="/wiki/"]');
+    const links = contentArea.querySelectorAll('a[href]');
     links.forEach(link => {
         if (shouldClean(link)) {
             neutralizeLink(link);
@@ -104,7 +118,7 @@ function startObserving() {
                     if (node.tagName === 'A' && shouldClean(node)) {
                         neutralizeLink(node);
                     } else {
-                        const nestedLinks = node.querySelectorAll('a[href^="/wiki/"]');
+                        const nestedLinks = node.querySelectorAll('a[href]');
                         nestedLinks.forEach(link => {
                             if (shouldClean(link)) {
                                 neutralizeLink(link);
