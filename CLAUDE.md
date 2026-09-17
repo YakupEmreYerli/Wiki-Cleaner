@@ -22,6 +22,9 @@ npm run lint    # tools/lint-extension.mjs → web-ext lint; beyaz listede olmay
 npm run build   # web-ext build → web-ext-artifacts/*.zip (gitignore'da)
 npm run build:chromium  # Chrome/Edge mağaza paketi; Firefox'a özel manifest alanları çıkarılır
 npm run icons   # icons/*.svg → PNG; librsvg (rsvg-convert) gerekir
+
+# AMO mağaza sayfası (simge, görseller, varsayılan dil); anahtarlar kasadan:
+key-vault calistir amo_jwt_issuer=AMO_ISS amo_jwt_secret=AMO_SEC -- python3 tools/amo-magaza.py
 ```
 
 Pull request öncesi `npm test` ve `npm run lint` yeşil olmalı (`CONTRIBUTING.md`).
