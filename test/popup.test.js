@@ -2,8 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createChromeStub, loadInWindow, readSource } from './helpers.js';
 
-function boot({ storage = {}, tabs = [] } = {}) {
-  const stub = createChromeStub({ storage });
+function boot({ storage = {}, tabs = [], locale } = {}) {
+  const stub = createChromeStub({ storage, locale });
   stub.chrome.tabs.queryResult = tabs;
   const dom = loadInWindow('popup.js', readSource('popup.html'), stub.chrome);
   // popup.html yüklendiğinde DOMContentLoaded çoktan geçtiği için elle tetikliyoruz.
@@ -99,4 +99,25 @@ test('açık sekme yokken çökme olmaz', () => {
 
   assert.deepEqual(errors.map((e) => e.message), []);
   assert.equal(stub.calls.sentMessages.length, 0);
+});
+
+test('panel metinleri tarayıcı diline göre yazılır', () => {
+  const tr = boot().doc;
+  assert.equal(tr.querySelector('.header h1').textContent, 'Wiki Cleaner');
+  assert.equal(tr.querySelector('[data-i18n="toggleLabel"]').textContent, 'Bağlantı temizleme');
+  assert.equal(tr.documentElement.lang, 'tr');
+
+  const en = boot({ locale: 'en', storage: { enabled: false } }).doc;
+  assert.equal(en.querySelector('[data-i18n="toggleLabel"]').textContent, 'Link cleaning');
+  assert.equal(en.getElementById('status-state').textContent, 'Off');
+  assert.equal(en.documentElement.lang, 'en');
+});
+
+test('paneldeki her çeviri anahtarı dil dosyasında tanımlı', () => {
+  const { doc } = boot();
+  const keys = [...doc.querySelectorAll('[data-i18n]')].map((el) => el.dataset.i18n);
+  assert.ok(keys.length > 0);
+  for (const el of doc.querySelectorAll('[data-i18n]')) {
+    assert.notEqual(el.textContent, '', `${el.dataset.i18n} boş kaldı`);
+  }
 });

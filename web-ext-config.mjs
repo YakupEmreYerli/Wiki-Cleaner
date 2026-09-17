@@ -7,6 +7,7 @@ export default {
     'tools/**',
     'web-ext-artifacts/**',
     'icons/*.svg',
+    'docs/**',
     'package.json',
     'package-lock.json',
     'web-ext-config.mjs',

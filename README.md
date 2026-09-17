@@ -1,4 +1,4 @@
-# Wikipedia Link Cleaner
+# Wiki Cleaner
 
 [![CI](https://github.com/YakupEmreYerli/Wiki-Cleaner/actions/workflows/ci.yml/badge.svg)](https://github.com/YakupEmreYerli/Wiki-Cleaner/actions/workflows/ci.yml)
 [![Lisans: MIT](https://img.shields.io/badge/lisans-MIT-blue.svg)](LICENSE)
@@ -13,15 +13,21 @@ işaretlerini gizleyen tarayıcı eklentisi. Amaç, okurken her mavi kelimenin y
 "bir tık daha" dürtüsünü ortadan kaldırmak.
 
 Manifest V3 kullanır ve tek paket hem Firefox'ta hem Chrome'da çalışacak şekilde
-tanımlanmıştır.
+tanımlanmıştır. Arayüz tarayıcının diline göre Türkçe ya da İngilizce açılır.
+
+<a href="https://addons.mozilla.org/firefox/addon/wiki-cleaner/"><img src="https://img.shields.io/badge/Firefox%27a%20ekle-FF7139?style=for-the-badge&logo=firefoxbrowser&logoColor=white" alt="Firefox'a ekle" /></a>
 
 > 🇬🇧 English version: [README.en.md](README.en.md)
+
+![Önce ve sonra: Wikipedia makalesindeki bağlantılar düz metne dönüşür](docs/screenshots/tr-before-after.png)
+
+<p align="center"><img src="docs/screenshots/tr-popup.png" width="288" alt="Araç çubuğu paneli: bağlantı temizleme açık" /></p>
 
 ## Ne yapar?
 
 | Davranış | Uygulama |
 | --- | --- |
-| Dahili bağlantıları nötrleştirir | `#mw-content-text` içindeki `a[href^="/wiki/"]` bağlantılarının `href` özniteliği kaldırılır, orijinali `data-original-href` içinde saklanır |
+| Dahili bağlantıları nötrleştirir | `#mw-content-text` içinde, adresi çözüldüğünde aynı Wikipedia alan adındaki bir `/wiki/` sayfasına giden bağlantıların (`/wiki/X`, `./X` ya da `https://tr.wikipedia.org/wiki/X`) `href` özniteliği kaldırılır, orijinali `data-original-href` içinde saklanır |
 | Görünümü metne yaklaştırır | Bağlantıya `color: inherit`, `text-decoration: none`, `cursor: text` uygulanır ve `wp-link-cleaned` sınıfı eklenir |
 | Tıklamayı engeller | Nötrleştirilen bağlantıya `preventDefault` yapan bir `onclick` bağlanır |
 | Atıf işaretlerini gizler | `#wp-link-cleaner-styles` kimlikli bir `<style>` enjekte edilir: `.reference { display: none !important; }` |
@@ -38,9 +44,8 @@ seçicilerden birinin altında kalan bağlantılar atlanır:
 `.reference` · `.mw-editsection` · `.infobox` · `sup` · `table`
 
 Böylece dipnot bağlantıları, "düzenle" bağlantıları, bilgi kutuları ve gezinme
-tabloları (`table.navbox` dâhil) çalışır durumda kalır. Dış bağlantılar ve sayfa
-içi çapa bağlantıları (`#bolum`) `/wiki/` ön ekiyle başlamadıkları için hiç
-değerlendirilmez.
+tabloları (`table.navbox` dâhil) çalışır durumda kalır. Dış bağlantılar, başka dildeki Wikipedia sayfaları, `/w/index.php` gibi makale
+dışı adresler ve sayfa içi çapa bağlantıları (`#bolum`) hiç değerlendirilmez.
 
 ## Mimari
 
@@ -107,7 +112,7 @@ npm install
 
 | Komut | Ne yapar |
 | --- | --- |
-| `npm test` | `node:test` + `jsdom` ile birim testlerini çalıştırır (33 test) |
+| `npm test` | `node:test` + `jsdom` ile birim testlerini çalıştırır |
 | `npm run lint` | `web-ext lint` ile eklentiyi doğrular, uyarıları hata sayar |
 | `npm run build` | Yayına hazır `.zip` paketini `web-ext-artifacts/` altında üretir |
 | `npm run icons` | `icons/*.svg` kaynaklarından PNG simgeleri yeniden üretir (`librsvg` gerekir) |
@@ -115,7 +120,8 @@ npm install
 
 Testler `chrome.*` API'lerini `test/helpers.js` içindeki dar bir sahte nesneyle
 karşılar ve gerçek `popup.html` dosyasını yükler; böylece HTML ile betik
-arasındaki `toggle-status` sözleşmesi de doğrulanır. Ayrıntılar için
+arasındaki `toggle-status` sözleşmesi de doğrulanır. `chrome.i18n` taslağı gerçek
+`_locales` dosyalarını okur. Ayrıntılar için
 [CONTRIBUTING.md](CONTRIBUTING.md).
 
 CI her push ve pull request'te Node 22/24 üzerinde testleri, ardından
@@ -148,13 +154,15 @@ manifest.json      Eklenti tanımı, izinler ve Firefox hedefi
 content.js         DOM manipülasyonu, nötrleştirme/geri alma, MutationObserver
 background.js      Sağ tık menüsü ve varsayılan durum kurulumu
 popup.html         Araç çubuğu panelinin işaretlemesi ve stili
-popup.js           Panel anahtarının durum yönetimi
+popup.js           Panel anahtarının durum yönetimi ve metinlerin çevirisi
+_locales/          Türkçe (tr) ve İngilizce (en, varsayılan) arayüz metinleri
 icons/icon.svg     Simgenin kaynağı (32 piksel ve üstü)
 icons/icon-small.svg  16 piksel için sadeleştirilmiş kaynak
 icons/*.png        SVG'lerden üretilen 16/32/48/96/128 piksel simgeler
 tools/render-icons.sh  Simge PNG'lerini üreten betik
 web-ext-config.mjs Paket dışında kalacak geliştirme dosyalarının listesi
 test/              node:test + jsdom birim testleri
+docs/screenshots/  README ve mağaza görselleri (pakete girmez)
 ```
 
 ## Lisans

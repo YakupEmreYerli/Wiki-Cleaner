@@ -1,8 +1,9 @@
 {
     "manifest_version": 3,
-    "name": "Wikipedia Link Cleaner",
-    "version": "1.1.0",
-    "description": "Wikipedia sayfalarındaki linkleri temizler ve okumayı kolaylaştırır.",
+    "name": "__MSG_extName__",
+    "version": "1.2.0",
+    "default_locale": "en",
+    "description": "__MSG_extDescription__",
     "permissions": [
         "storage",
         "contextMenus"
@@ -45,7 +46,7 @@
             "32": "icons/32.png",
             "48": "icons/48.png"
         },
-        "default_title": "Wikipedia Link Cleaner Ayarları",
+        "default_title": "__MSG_actionTitle__",
         "default_popup": "popup.html"
     },
     "icons": {

@@ -1,0 +1,38 @@
+{
+  "extName": {
+    "message": "Wiki Cleaner",
+    "description": "Extension name shown in the browser and on the add-on store."
+  },
+  "extDescription": {
+    "message": "Turns Wikipedia's internal links into plain text and hides citation markers for distraction-free reading.",
+    "description": "Short extension description."
+  },
+  "actionTitle": {
+    "message": "Wiki Cleaner settings",
+    "description": "Tooltip of the toolbar button."
+  },
+  "popupTagline": {
+    "message": "Distraction-free Wikipedia reading",
+    "description": "Subtitle under the name in the popup."
+  },
+  "toggleLabel": {
+    "message": "Link cleaning",
+    "description": "Label of the on/off switch."
+  },
+  "stateOn": {
+    "message": "On",
+    "description": "Switch state: enabled."
+  },
+  "stateOff": {
+    "message": "Off",
+    "description": "Switch state: disabled."
+  },
+  "popupHint": {
+    "message": "Changes apply to the active tab immediately. You can also toggle it by right-clicking on a Wikipedia page.",
+    "description": "Hint at the bottom of the popup."
+  },
+  "contextMenuTitle": {
+    "message": "Clean / restore Wikipedia links",
+    "description": "Right-click menu item on Wikipedia pages."
+  }
+}

@@ -3,7 +3,7 @@ const MENU_ID = "toggle-wikipedia-links";
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: MENU_ID,
-    title: "Wikipedia Linklerini Temizle/Geri Al",
+    title: chrome.i18n.getMessage("contextMenuTitle"),
     contexts: ["page"],
     documentUrlPatterns: ["*://*.wikipedia.org/wiki/*"]
   });

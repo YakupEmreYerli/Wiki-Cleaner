@@ -1,0 +1,70 @@
+name: Yayın
+
+# `v1.2.0` gibi bir etiket itildiğinde: testler, lint, AMO'ya listelenen sürüm
+# olarak gönderim ve GitHub sürümü. Etiket manifest sürümüyle aynı olmalı.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: AMO + GitHub sürümü
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+
+      - name: Etiket manifest sürümüyle aynı mı
+        run: |
+          surum="v$(node -p "require('./manifest.json').version")"
+          if [ "$surum" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Etiket $GITHUB_REF_NAME, manifest $surum"
+            exit 1
+          fi
+
+      - name: Birim testleri
+        run: npm test
+
+      - name: Eklenti doğrulaması
+        run: npm run lint
+
+      - name: Paket
+        run: npm run build
+
+      # Listelenen sürüm AMO incelemesinden geçer. İnceleme 15 dakikada bitmezse
+      # gönderim yine de yapılmıştır; imzalı dosya bu durumda sürüme eklenmez.
+      - name: AMO'ya gönder
+        id: amo
+        continue-on-error: true
+        env:
+          WEB_EXT_API_KEY: ${{ secrets.AMO_JWT_ISSUER }}
+          WEB_EXT_API_SECRET: ${{ secrets.AMO_JWT_SECRET }}
+        run: npx web-ext sign --channel listed --approval-timeout 900000 --artifacts-dir web-ext-artifacts
+
+      - name: GitHub sürümü
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          {
+            echo "Firefox: https://addons.mozilla.org/firefox/addon/wiki-cleaner/"
+            echo
+            if [ "${{ steps.amo.outcome }}" != "success" ]; then
+              echo "> AMO gönderimi incelemede ya da başarısız; imzalı .xpi bu sürüme eklenmedi."
+              echo
+            fi
+          } > notlar.md
+          gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" \
+            --notes-file notlar.md --generate-notes web-ext-artifacts/*
+
+      - name: AMO sonucu
+        if: steps.amo.outcome != 'success'
+        run: echo "::warning::AMO gönderimi tamamlanmadı, günlüğe bak."

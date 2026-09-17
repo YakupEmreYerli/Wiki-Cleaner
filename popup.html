@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -189,16 +189,16 @@
   <div class="header">
     <img src="icons/48.png" alt="">
     <div>
-      <h1>Wikipedia Link Cleaner</h1>
-      <p>Dikkat dağıtmayan Wikipedia okuması</p>
+      <h1 data-i18n="extName">Wiki Cleaner</h1>
+      <p data-i18n="popupTagline">Distraction-free Wikipedia reading</p>
     </div>
   </div>
 
   <div class="body">
     <div class="status-container" id="status-container">
       <span class="status-label">
-        Bağlantı temizleme
-        <span class="status-state" id="status-state">Açık</span>
+        <span data-i18n="toggleLabel">Link cleaning</span>
+        <span class="status-state" id="status-state">On</span>
       </span>
       <label class="switch">
         <input type="checkbox" id="toggle-status">
@@ -206,9 +206,9 @@
       </label>
     </div>
 
-    <p class="footer">
-      Değişiklik etkin sekmeye anında uygulanır. Wikipedia sayfasında sağ tıklayarak
-      da açıp kapatabilirsin.
+    <p class="footer" data-i18n="popupHint">
+      Changes apply to the active tab immediately. You can also toggle it by
+      right-clicking on a Wikipedia page.
     </p>
   </div>
 

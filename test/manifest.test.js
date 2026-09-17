@@ -88,3 +88,21 @@ test('eklenti veri toplamadığını beyan eder', () => {
 test('popup.html popup.js dosyasını yükler', () => {
   assert.match(readSource('popup.html'), /<script src="popup\.js"><\/script>/);
 });
+
+test('dil dosyaları aynı anahtarları taşır ve manifestin istediklerini kapsar', () => {
+  const locales = fs.readdirSync(path.join(ROOT, '_locales')).sort();
+  assert.deepEqual(locales, ['en', 'tr']);
+  assert.ok(locales.includes(manifest.default_locale));
+  const keysOf = (locale) =>
+    Object.keys(JSON.parse(readSource(`_locales/${locale}/messages.json`))).sort();
+  assert.deepEqual(keysOf('tr'), keysOf('en'));
+
+  const wanted = JSON.stringify(manifest).match(/__MSG_(\w+)__/g)
+    .map((m) => m.slice(6, -2));
+  for (const key of wanted) {
+    assert.ok(keysOf('en').includes(key), `${key} dil dosyasında yok`);
+  }
+  for (const key of ['contextMenuTitle', 'stateOn', 'stateOff']) {
+    assert.ok(keysOf('en').includes(key), `${key} dil dosyasında yok`);
+  }
+});

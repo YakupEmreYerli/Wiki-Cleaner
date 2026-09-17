@@ -1,4 +1,4 @@
-# Wikipedia Link Cleaner
+# Wiki Cleaner
 
 [![CI](https://github.com/YakupEmreYerli/Wiki-Cleaner/actions/workflows/ci.yml/badge.svg)](https://github.com/YakupEmreYerli/Wiki-Cleaner/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -13,15 +13,21 @@ and hides citation markers, so reading an article stops feeling like resisting
 "just one more tab".
 
 It uses Manifest V3, and a single package is declared to run in both Firefox and
-Chrome.
+Chrome. The interface follows the browser language: Turkish or English.
+
+<a href="https://addons.mozilla.org/firefox/addon/wiki-cleaner/"><img src="https://img.shields.io/badge/Add%20to%20Firefox-FF7139?style=for-the-badge&logo=firefoxbrowser&logoColor=white" alt="Add to Firefox" /></a>
 
 > 🇹🇷 Türkçe sürüm: [README.md](README.md)
+
+![Before and after: links in a Wikipedia article turn into plain text](docs/screenshots/en-before-after.png)
+
+<p align="center"><img src="docs/screenshots/en-popup.png" width="288" alt="Toolbar popup: link cleaning on" /></p>
 
 ## What it does
 
 | Behaviour | Implementation |
 | --- | --- |
-| Neutralises internal links | For `a[href^="/wiki/"]` inside `#mw-content-text`, the `href` attribute is removed and preserved in `data-original-href` |
+| Neutralises internal links | Inside `#mw-content-text`, links that resolve to a `/wiki/` page on the same Wikipedia host (`/wiki/X`, `./X` or `https://en.wikipedia.org/wiki/X`) lose their `href` attribute, which is preserved in `data-original-href` |
 | Makes them look like text | The link gets `color: inherit`, `text-decoration: none`, `cursor: text` and the `wp-link-cleaned` class |
 | Blocks clicks | An `onclick` handler calling `preventDefault` is attached |
 | Hides citation markers | A `<style id="wp-link-cleaner-styles">` is injected with `.reference { display: none !important; }` |
@@ -38,8 +44,9 @@ of these selectors are skipped:
 `.reference` · `.mw-editsection` · `.infobox` · `sup` · `table`
 
 That keeps footnote links, "edit" links, infoboxes and navigation tables
-(including `table.navbox`) working. External links and in-page anchors (`#section`)
-are never considered, because they do not start with `/wiki/`.
+(including `table.navbox`) working. External links, other-language Wikipedia pages,
+non-article addresses such as `/w/index.php` and in-page anchors (`#section`) are
+never considered.
 
 ## Architecture
 
@@ -105,7 +112,7 @@ npm install
 
 | Command | What it does |
 | --- | --- |
-| `npm test` | Runs the unit tests with `node:test` + `jsdom` (33 tests) |
+| `npm test` | Runs the unit tests with `node:test` + `jsdom` |
 | `npm run lint` | Validates the add-on with `web-ext lint`, treating warnings as errors |
 | `npm run build` | Produces a distributable `.zip` in `web-ext-artifacts/` |
 | `npm run icons` | Re-renders the PNG icons from `icons/*.svg` (requires `librsvg`) |
@@ -113,7 +120,8 @@ npm install
 
 The tests back the `chrome.*` APIs with a narrow stub in `test/helpers.js` and load
 the real `popup.html`, which also verifies the `toggle-status` contract between the
-markup and the script. See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+markup and the script. The `chrome.i18n` stub reads the real `_locales` files. See
+[CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 CI runs the tests on Node 22/24 for every push and pull request, then runs
 `web-ext lint` and the dependency audit; if both pass it builds the package and
@@ -145,13 +153,15 @@ manifest.json      Add-on definition, permissions and Firefox target
 content.js         DOM work: neutralise/restore plus the MutationObserver
 background.js      Context menu and default-state setup
 popup.html         Markup and styling for the toolbar panel
-popup.js           State handling for the panel switch
+popup.js           State handling for the panel switch and text translation
+_locales/          Turkish (tr) and English (en, default) interface strings
 icons/icon.svg     Icon source (32 px and up)
 icons/icon-small.svg  Simplified source for 16 px
 icons/*.png        16/32/48/96/128 px icons rendered from the SVGs
 tools/render-icons.sh  Script that renders the icon PNGs
 web-ext-config.mjs Development files kept out of the package
 test/              node:test + jsdom unit tests
+docs/screenshots/  README and store images (not packaged)
 ```
 
 ## License

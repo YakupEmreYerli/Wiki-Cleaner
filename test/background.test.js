@@ -33,6 +33,7 @@ test('kurulumda sağ tık menüsü kaydedilir', () => {
   assert.equal(menu.id, MENU_ID);
   assert.deepEqual(menu.contexts, ['page']);
   assert.deepEqual(menu.documentUrlPatterns, ['*://*.wikipedia.org/wiki/*']);
+  assert.equal(menu.title, 'Wikipedia bağlantılarını temizle / geri al');
 });
 
 test('kurulumda varsayılan durum açık yazılır', () => {

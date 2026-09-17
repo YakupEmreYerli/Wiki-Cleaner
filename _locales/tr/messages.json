@@ -1,0 +1,38 @@
+{
+  "extName": {
+    "message": "Wiki Cleaner",
+    "description": "Tarayıcıda ve eklenti mağazasında görünen ad."
+  },
+  "extDescription": {
+    "message": "Wikipedia'daki dahili bağlantıları düz metne çevirir ve atıf işaretlerini gizler; dikkatin dağılmadan okursun.",
+    "description": "Kısa eklenti açıklaması."
+  },
+  "actionTitle": {
+    "message": "Wiki Cleaner ayarları",
+    "description": "Araç çubuğu düğmesinin ipucu."
+  },
+  "popupTagline": {
+    "message": "Dikkat dağıtmayan Wikipedia okuması",
+    "description": "Paneldeki adın altındaki alt başlık."
+  },
+  "toggleLabel": {
+    "message": "Bağlantı temizleme",
+    "description": "Aç/kapa anahtarının etiketi."
+  },
+  "stateOn": {
+    "message": "Açık",
+    "description": "Anahtar durumu: açık."
+  },
+  "stateOff": {
+    "message": "Kapalı",
+    "description": "Anahtar durumu: kapalı."
+  },
+  "popupHint": {
+    "message": "Değişiklik etkin sekmeye anında uygulanır. Wikipedia sayfasında sağ tıklayarak da açıp kapatabilirsin.",
+    "description": "Panelin altındaki ipucu."
+  },
+  "contextMenuTitle": {
+    "message": "Wikipedia bağlantılarını temizle / geri al",
+    "description": "Wikipedia sayfalarındaki sağ tık menüsü öğesi."
+  }
+}

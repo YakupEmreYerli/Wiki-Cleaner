@@ -5,6 +5,8 @@
 Wikipedia makalelerindeki dahili bağlantıları tıklanamaz düz metne çeviren ve atıf
 işaretlerini gizleyen tarayıcı eklentisi. Manifest V3; tek paket Firefox ≥ 142 ve
 Chrome ≥ 120 (`manifest.json`). Firefox'ta AMO'da yayında, Chrome Web Store'da değil.
+Arayüz metinleri `_locales/{en,tr}/messages.json` içinde (varsayılan `en`); yeni metin
+her iki dosyaya birden eklenir, `test/manifest.test.js` anahtar eşitliğini denetler.
 Davranış, mimari ve bilinen sınırlar: `README.md` (İngilizcesi `README.en.md`).
 
 ## Komutlar
@@ -13,7 +15,7 @@ Node ≥ 22 gerekir (`package.json` engines; `jsdom` 30 bunu şart koşuyor).
 
 ```bash
 npm install
-npm test        # node --test test/*.test.js (node:test + jsdom), 2026-09-12'de 44 test geçti
+npm test        # node --test test/*.test.js (node:test + jsdom), 2026-09-17'de 47 test geçti
 npm run lint    # tools/lint-extension.mjs → web-ext lint; beyaz listede olmayan her uyarı hata
 npm run build   # web-ext build → web-ext-artifacts/*.zip (gitignore'da)
 npm run icons   # icons/*.svg → PNG; librsvg (rsvg-convert) gerekir
@@ -22,7 +24,6 @@ npm run icons   # icons/*.svg → PNG; librsvg (rsvg-convert) gerekir
 Pull request öncesi `npm test` ve `npm run lint` yeşil olmalı (`CONTRIBUTING.md`).
 CI (`.github/workflows/ci.yml`): Node 22 ve 24'te test; ayrı işte lint +
 `npm audit --audit-level=critical`; ikisi geçerse paket üretilip artefakt yüklenir.
-README'deki "33 test" sayısı eskimiş, güncel sayı test çıktısındadır.
 
 Eklentiyi elle denemek: Firefox `about:debugging` → This Firefox → Load Temporary
 Add-on → `manifest.json`.

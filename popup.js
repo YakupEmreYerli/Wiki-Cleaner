@@ -1,10 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const t = (key) => chrome.i18n.getMessage(key);
+    document.documentElement.lang = t('@@ui_locale').split('_')[0] || 'en';
+    for (const el of document.querySelectorAll('[data-i18n]')) {
+        el.textContent = t(el.dataset.i18n);
+    }
+
     const toggleInput = document.getElementById('toggle-status');
     const statusContainer = document.getElementById('status-container');
     const statusState = document.getElementById('status-state');
 
     const renderState = (isEnabled) => {
-        statusState.textContent = isEnabled ? 'Açık' : 'Kapalı';
+        statusState.textContent = t(isEnabled ? 'stateOn' : 'stateOff');
         statusContainer.dataset.state = isEnabled ? 'on' : 'off';
     };
 

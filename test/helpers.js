@@ -16,8 +16,13 @@ export function readSource(file) {
  * Minimal `chrome` stub covering only the APIs the extension actually calls.
  * Callbacks fire synchronously so tests stay deterministic.
  */
-export function createChromeStub({ storage = {} } = {}) {
+export function readMessages(locale) {
+  return JSON.parse(readSource(`_locales/${locale}/messages.json`));
+}
+
+export function createChromeStub({ storage = {}, locale = 'tr' } = {}) {
   const state = { ...storage };
+  const messages = readMessages(locale);
   const calls = {
     sentMessages: [],
     createdMenus: [],
@@ -44,6 +49,12 @@ export function createChromeStub({ storage = {} } = {}) {
           calls.storageWrites.push(plain(items));
           if (cb) cb();
         }
+      }
+    },
+    i18n: {
+      getMessage(key) {
+        if (key === '@@ui_locale') return locale;
+        return messages[key] ? messages[key].message : '';
       }
     },
     runtime: {
