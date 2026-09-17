@@ -51,7 +51,8 @@ git clone https://github.com/YakupEmreYerli/Wiki-Cleaner.git && cd Wiki-Cleaner
 npm install
 npm test          # node:test + jsdom, no browser needed
 npm run lint      # web-ext lint; any warning not on the allowlist fails
-npm run build     # unsigned package in web-ext-artifacts/
+npm run build     # unsigned Firefox package in web-ext-artifacts/
+npm run build:chromium  # Chrome / Edge store package
 ```
 
 To try a change, open `about:debugging` → **This Firefox** → **Load Temporary Add-on…** and pick `manifest.json`. Icons are rendered from `icons/*.svg` with `npm run icons` (needs `librsvg`).

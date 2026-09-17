@@ -20,6 +20,7 @@ npm install
 npm test        # node --test test/*.test.js (node:test + jsdom), 2026-09-17'de 47 test geçti
 npm run lint    # tools/lint-extension.mjs → web-ext lint; beyaz listede olmayan her uyarı hata
 npm run build   # web-ext build → web-ext-artifacts/*.zip (gitignore'da)
+npm run build:chromium  # Chrome/Edge mağaza paketi; Firefox'a özel manifest alanları çıkarılır
 npm run icons   # icons/*.svg → PNG; librsvg (rsvg-convert) gerekir
 ```
 

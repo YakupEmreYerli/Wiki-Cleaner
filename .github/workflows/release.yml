@@ -71,6 +71,16 @@ jobs:
       - name: Eklenti doğrulaması
         run: npm run lint
 
+      # Chrome Web Mağazası ve Edge Eklentileri'ne elle yüklenecek paket.
+      - name: Chromium paketi
+        run: npm run build:chromium
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: wiki-cleaner-chromium
+          path: web-ext-artifacts/wiki_cleaner-chromium-*.zip
+          if-no-files-found: error
+
       # Listelenen sürüm AMO incelemesinden geçer; imzalı dosya gelmeden sürüm açılmaz.
       - name: AMO'ya gönder
         env:

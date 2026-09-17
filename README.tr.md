@@ -51,7 +51,8 @@ git clone https://github.com/YakupEmreYerli/Wiki-Cleaner.git && cd Wiki-Cleaner
 npm install
 npm test          # node:test + jsdom, tarayıcı gerekmez
 npm run lint      # web-ext lint; izin listesinde olmayan her uyarı hata sayılır
-npm run build     # imzasız paket, web-ext-artifacts/ altına
+npm run build     # imzasız Firefox paketi, web-ext-artifacts/ altına
+npm run build:chromium  # Chrome / Edge mağaza paketi
 ```
 
 Bir değişikliği denemek için `about:debugging` → **Bu Firefox** → **Geçici Eklenti Yükle…** ile `manifest.json`'u seç. Simgeler `icons/*.svg` kaynaklarından `npm run icons` ile üretilir (`librsvg` gerekir).

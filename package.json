@@ -29,6 +29,7 @@
     "test": "node --test test/*.test.js",
     "lint": "node tools/lint-extension.mjs",
     "build": "web-ext build --source-dir .",
+    "build:chromium": "node tools/build-chromium.mjs",
     "icons": "./tools/render-icons.sh"
   },
   "devDependencies": {
