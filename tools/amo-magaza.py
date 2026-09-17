@@ -13,6 +13,8 @@ import base64, hashlib, hmac, json, os, sys, time, urllib.error, urllib.request,
 from pathlib import Path
 
 KOK = Path(__file__).resolve().parent.parent
+# Zamanlayıcı bu dosyaya bakar: varsa iş bitmiştir, bir daha çalışmaz.
+BITTI = Path(os.environ.get("AMO_BITTI", Path.home() / ".local/state/amo-magaza.bitti"))
 ADDON = "/addons/addon/wiki-cleaner@yakupemre/"
 ALTYAZI = [
     {"en-US": "Every blue word is another tab: Wiki Cleaner turns internal links into plain text and hides citation markers.",
@@ -99,7 +101,12 @@ def main():
             time.sleep(3)
 
     durum, yanit = cagir("GET", ADDON)
+    tamam = yanit["default_locale"] == "en-US" and len(yanit["previews"]) >= len(ALTYAZI)
     print(f"son durum: dil={yanit['default_locale']} görsel={len(yanit['previews'])}", flush=True)
+    if tamam:
+        BITTI.parent.mkdir(parents=True, exist_ok=True)
+        BITTI.write_text(time.strftime("%Y-%m-%d %H:%M") + " tamam\n", encoding="utf-8")
+        print("bitti işareti yazıldı; zamanlayıcı bir daha çalışmaz", flush=True)
 
 
 if __name__ == "__main__":
