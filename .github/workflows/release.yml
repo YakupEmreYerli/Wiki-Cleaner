@@ -71,11 +71,14 @@ jobs:
       - name: Eklenti doğrulaması
         run: npm run lint
 
-      # Chrome Web Mağazası ve Edge Eklentileri'ne elle yüklenecek paket.
+      # Chrome Web Mağazası ve Edge Eklentileri'ne elle yüklenecek paket. Betik 1.3.0
+      # etiketinden sonra eklendi; eski bir etiket yeniden yayımlanırken adım atlanır.
       - name: Chromium paketi
+        if: hashFiles('tools/build-chromium.mjs') != ''
         run: npm run build:chromium
 
-      - uses: actions/upload-artifact@v7
+      - if: hashFiles('tools/build-chromium.mjs') != ''
+        uses: actions/upload-artifact@v7
         with:
           name: wiki-cleaner-chromium
           path: web-ext-artifacts/wiki_cleaner-chromium-*.zip
