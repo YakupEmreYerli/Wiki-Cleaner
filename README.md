@@ -1,173 +1,63 @@
-<img src="icons/icon.svg" width="72" height="72" alt="Wiki Cleaner logosu" />
+# <img src="icons/icon.svg" width="40" height="40" align="top" alt=""> Wiki Cleaner
 
-# Wiki Cleaner
+[![Firefox Add-ons](https://img.shields.io/amo/v/wiki-cleaner?label=Firefox%20Add-ons&logo=firefoxbrowser&logoColor=white&color=3366CC)](https://addons.mozilla.org/firefox/addon/wiki-cleaner/) [![Users](https://img.shields.io/amo/users/wiki-cleaner?color=3366CC)](https://addons.mozilla.org/firefox/addon/wiki-cleaner/) [![CI](https://github.com/YakupEmreYerli/Wiki-Cleaner/actions/workflows/ci.yml/badge.svg)](https://github.com/YakupEmreYerli/Wiki-Cleaner/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-202122)](LICENSE)
 
-[![CI](https://github.com/YakupEmreYerli/Wiki-Cleaner/actions/workflows/ci.yml/badge.svg)](https://github.com/YakupEmreYerli/Wiki-Cleaner/actions/workflows/ci.yml)
-[![Lisans: MIT](https://img.shields.io/badge/lisans-MIT-blue.svg)](LICENSE)
-[![AMO](https://img.shields.io/amo/v/wiki-cleaner?label=Firefox%20Add-ons&logo=firefoxbrowser&logoColor=white&color=FF7139)](https://addons.mozilla.org/firefox/addon/wiki-cleaner/)
-[![Firefox](https://img.shields.io/badge/Firefox-%E2%89%A5%20142.0-FF7139?logo=firefoxbrowser&logoColor=white)](manifest.json)
-[![Chrome](https://img.shields.io/badge/Chrome-%E2%89%A5%20120-4285F4?logo=googlechrome&logoColor=white)](manifest.json)
-[![Manifest](https://img.shields.io/badge/manifest-v3-informational)](manifest.json)
-[![Bağımlılık](https://img.shields.io/badge/çalışma%20zamanı%20bağımlılığı-0-success)](package.json)
+Every blue word in a Wikipedia article is an invitation to open one more tab. Wiki Cleaner is a Firefox extension that turns Wikipedia's internal links into plain text and hides citation markers, so the article you opened is the article you finish.
 
-Wikipedia makalelerindeki dahili bağlantıları tıklanamaz düz metne çeviren ve atıf
-işaretlerini gizleyen tarayıcı eklentisi. Amaç, okurken her mavi kelimenin yarattığı
-"bir tık daha" dürtüsünü ortadan kaldırmak.
+> Türkçe: [README.tr.md](README.tr.md)
 
-Manifest V3 kullanır ve tek paket hem Firefox'ta hem Chrome'da çalışacak şekilde
-tanımlanmıştır. Arayüz tarayıcının diline göre Türkçe ya da İngilizce açılır.
+<a href="https://addons.mozilla.org/firefox/addon/wiki-cleaner/"><img src="https://img.shields.io/badge/Get%20it%20for%20Firefox-3366CC?style=for-the-badge&logo=firefoxbrowser&logoColor=white" alt="Get Wiki Cleaner for Firefox"></a>
 
-<a href="https://addons.mozilla.org/firefox/addon/wiki-cleaner/"><img src="https://img.shields.io/badge/Firefox%27a%20ekle-FF7139?style=for-the-badge&logo=firefoxbrowser&logoColor=white" alt="Firefox'a ekle" /></a>
+![Wiki Cleaner: every blue word is another tab](docs/store/en-1.png)
 
-> 🇬🇧 English version: [README.en.md](README.en.md)
+It reads nothing and sends nothing: no network requests, no data collection, no remote code. The only thing it stores is whether it is switched on. Every release is tested, signed by Mozilla and published by CI from a tagged commit.
 
-![Wiki Cleaner: her mavi kelime yeni bir sekme](docs/store/tr-1.png)
+## Features
 
-![Önce ve sonra: aynı paragraf, bağlantılar düz metne dönmüş](docs/store/tr-2.png)
+- **Plain text, not links.** Links to other articles on the same Wikipedia become ordinary text — same colour, no underline, no click. Switch it off and every link comes back exactly as it was.
+- **Citation markers step aside.** `[1]`, `[2]` and friends are hidden while you read.
+- **The useful parts keep working.** Infoboxes, navigation tables, footnotes, "edit" links, external links and links to other language editions are left alone.
+- **Keeps up with the page.** Content Wikipedia loads after the page opens is cleaned too.
+- **One switch.** Turn it off from the toolbar button or by right-clicking any article; the choice is remembered.
+- **Every language edition.** Works on any `*.wikipedia.org` article; the interface follows your browser in English or Turkish.
 
-## Ne yapar?
+![Before and after: the same paragraph with links turned into plain text](docs/store/en-2.png)
 
-| Davranış | Uygulama |
+## Install
+
+| Where | How |
 | --- | --- |
-| Dahili bağlantıları nötrleştirir | `#mw-content-text` içinde, adresi çözüldüğünde aynı Wikipedia alan adındaki bir `/wiki/` sayfasına giden bağlantıların (`/wiki/X`, `./X` ya da `https://tr.wikipedia.org/wiki/X`) `href` özniteliği kaldırılır, orijinali `data-original-href` içinde saklanır |
-| Görünümü metne yaklaştırır | Bağlantıya `color: inherit`, `text-decoration: none`, `cursor: text` uygulanır ve `wp-link-cleaned` sınıfı eklenir |
-| Tıklamayı engeller | Nötrleştirilen bağlantıya `preventDefault` yapan bir `onclick` bağlanır |
-| Atıf işaretlerini gizler | `#wp-link-cleaner-styles` kimlikli bir `<style>` enjekte edilir: `.reference { display: none !important; }` |
-| Sonradan gelen içeriği yakalar | `#mw-content-text` üzerinde `childList` + `subtree` dinleyen bir `MutationObserver` çalışır |
-| Tercihi hatırlar | Durum `chrome.storage.local` içindeki `enabled` boolean'ında tutulur, varsayılanı `true` |
-| Geri alır | `href`, sayfanın kendi satır içi stili, sınıf ve `onclick` ilk hâline döndürülür |
+| Firefox 142+ | [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/wiki-cleaner/) — updates automatically |
+| Signed `.xpi` | [Releases](https://github.com/YakupEmreYerli/Wiki-Cleaner/releases/latest) — drag the file onto a Firefox window |
+| Chrome 120+ | Not in the Chrome Web Store. Clone the repository, open `chrome://extensions`, enable **Developer mode** and choose **Load unpacked** |
 
-### Dokunulmayan alanlar
+## Privacy
 
-Temizleme yalnızca `#mw-content-text` içinde çalışır; kenar çubuğu, üst menü ve
-sayfa altı navigasyonu zaten kapsam dışıdır. Makale gövdesinin içinde ise şu
-seçicilerden birinin altında kalan bağlantılar atlanır:
+The extension asks for two permissions: `storage`, for the on/off switch, and `contextMenus`, for the right-click item. It runs only on `*.wikipedia.org/wiki/*` pages, never contacts a server and declares no data collection to Mozilla. Details and how to report a vulnerability: [SECURITY.md](SECURITY.md).
 
-`.reference` · `.mw-editsection` · `.infobox` · `sup` · `table`
+## Documentation
 
-Böylece dipnot bağlantıları, "düzenle" bağlantıları, bilgi kutuları ve gezinme
-tabloları (`table.navbox` dâhil) çalışır durumda kalır. Dış bağlantılar, başka dildeki Wikipedia sayfaları, `/w/index.php` gibi makale
-dışı adresler ve sayfa içi çapa bağlantıları (`#bolum`) hiç değerlendirilmez.
+| Page | What it covers |
+| --- | --- |
+| [How it works](docs/how-it-works.md) | What exactly is changed and left alone, the architecture, known limits, project layout |
+| [Changelog](CHANGELOG.md) | Every release |
+| [Brand kit](docs/brand/README.md) | Logo, colours, typefaces and voice |
+| [Contributing](CONTRIBUTING.md) | Setting up, the rules a pull request has to follow |
 
-## Mimari
-
-```mermaid
-flowchart LR
-    subgraph UI["Kullanıcı kontrolleri"]
-        P["popup.html + popup.js<br/>araç çubuğu anahtarı"]
-        M["background.js<br/>sağ tık menüsü"]
-    end
-
-    S[("chrome.storage.local<br/>enabled: boolean")]
-
-    subgraph CS["content.js — wikipedia.org/wiki/*"]
-        C["cleanAllLinks() /<br/>restoreAllLinks()"]
-        O["MutationObserver<br/>#mw-content-text"]
-    end
-
-    P -->|"storage.local.set"| S
-    M -->|"storage.local.set"| S
-    P -->|"tabs.sendMessage<br/>action: toggleLinks"| C
-    M -->|"tabs.sendMessage<br/>action: toggleLinks"| C
-    S -.->|"sayfa açılışında okunur"| C
-    C --> O
-    O -->|"yeni düğümler"| C
-```
-
-Akış üç parçadan oluşur:
-
-1. **`content.js`** sayfa yüklenince `chrome.storage.local` içindeki `enabled`
-   değerini okur. Değer `false` değilse temizlemeyi uygular ve gözlemciyi başlatır.
-2. **`popup.js`** anahtarın durumunu depoya yazar, ardından *etkin sekmeye*
-   `toggleLinks` mesajı gönderir.
-3. **`background.js`** kurulumda sağ tık menüsünü oluşturur, varsayılan durumu
-   yazar ve menü tıklamasında durumu tersine çevirip *tıklanan sekmeye* mesaj yollar.
-
-## Kurulum
-
-### Firefox
-
-Eklenti AMO'da yayında:
-**[addons.mozilla.org/firefox/addon/wiki-cleaner](https://addons.mozilla.org/firefox/addon/wiki-cleaner/)**
-
-### Chrome
-
-Chrome Web Store yayını henüz yapılmadı. O zamana kadar `chrome://extensions`
-sayfasında **Geliştirici modu**nu açıp **Paketlenmemiş öğe yükle** ile proje
-dizinini seçebilirsin.
-
-### Geliştirici kurulumu (Firefox)
-
-1. Firefox'ta adres çubuğuna `about:debugging` yaz.
-2. Sol menüden **This Firefox** (Bu Firefox) seçeneğine tıkla.
-3. **Load Temporary Add-on…** düğmesine bas.
-4. Proje dizinindeki `manifest.json` dosyasını seç.
-
-Geçici eklentiler Firefox kapatılınca kaldırılır. Paketlenmiş bir `.zip` üretmek
-için `npm run build` kullan; çıktı `web-ext-artifacts/` altına düşer.
-
-## Geliştirme
+## Development
 
 ```bash
+git clone https://github.com/YakupEmreYerli/Wiki-Cleaner.git && cd Wiki-Cleaner
 npm install
+npm test          # node:test + jsdom, no browser needed
+npm run lint      # web-ext lint; any warning not on the allowlist fails
+npm run build     # unsigned package in web-ext-artifacts/
 ```
 
-| Komut | Ne yapar |
-| --- | --- |
-| `npm test` | `node:test` + `jsdom` ile birim testlerini çalıştırır |
-| `npm run lint` | `web-ext lint` ile eklentiyi doğrular, uyarıları hata sayar |
-| `npm run build` | Yayına hazır `.zip` paketini `web-ext-artifacts/` altında üretir |
-| `npm run icons` | `icons/*.svg` kaynaklarından PNG simgeleri yeniden üretir (`librsvg` gerekir) |
-| `npm audit --audit-level=critical` | Geliştirme bağımlılıklarını denetler |
+To try a change, open `about:debugging` → **This Firefox** → **Load Temporary Add-on…** and pick `manifest.json`. Icons are rendered from `icons/*.svg` with `npm run icons` (needs `librsvg`).
 
-Testler `chrome.*` API'lerini `test/helpers.js` içindeki dar bir sahte nesneyle
-karşılar ve gerçek `popup.html` dosyasını yükler; böylece HTML ile betik
-arasındaki `toggle-status` sözleşmesi de doğrulanır. `chrome.i18n` taslağı gerçek
-`_locales` dosyalarını okur. Ayrıntılar için
-[CONTRIBUTING.md](CONTRIBUTING.md).
+Releases are cut by pushing a `vX.Y.Z` tag that matches `manifest.json` and has a section in `CHANGELOG.md`: CI runs the tests and lint, submits the version to Firefox Add-ons, waits for Mozilla's signature and only then publishes the GitHub release with the signed `.xpi`.
 
-CI her push ve pull request'te Node 22/24 üzerinde testleri, ardından
-`web-ext lint` ve bağımlılık denetimini çalıştırır; ikisi de geçerse paketi üretip
-artefakt olarak yükler.
+## License
 
-## Bilinen sınırlar
-
-- **Arka plan iki farklı biçimde tanımlı.** Manifest, MDN'in çapraz tarayıcı
-  önerisini izler: Chrome `background.service_worker`, Firefox
-  `background.scripts` anahtarını kullanır. Firefox'un doğrulayıcısı bu yüzden
-  `BACKGROUND_SERVICE_WORKER_IGNORED` uyarısı verir; uyarı beklenen olduğu için
-  `tools/lint-extension.mjs` içinde adıyla beyaz listeye alınmıştır.
-- **Açık/kapa yalnızca bir sekmeye ulaşır.** Hem panel hem sağ tık menüsü mesajı
-  tek bir sekmeye gönderir. Aynı anda açık diğer Wikipedia sekmeleri yenilenene
-  kadar eski durumlarını korur; depodaki tercih ise hemen güncellenir.
-- **Atıf gizleme geniş kapsamlıdır.** Enjekte edilen stil, sayfadaki tüm
-  `.reference` elemanlarını gizler — bunlara "Kaynakça" bölümündeki geri
-  bağlantılar da dâhildir.
-
-## Gizlilik
-
-Eklenti ağ isteği yapmaz, veri toplamaz ve uzaktan kod yüklemez. Sakladığı tek
-şey `enabled` tercihidir ve cihazdan çıkmaz. Ayrıntılar için [SECURITY.md](SECURITY.md).
-
-## Dosya yapısı
-
-```
-manifest.json      Eklenti tanımı, izinler ve Firefox hedefi
-content.js         DOM manipülasyonu, nötrleştirme/geri alma, MutationObserver
-background.js      Sağ tık menüsü ve varsayılan durum kurulumu
-popup.html         Araç çubuğu panelinin işaretlemesi ve stili
-popup.js           Panel anahtarının durum yönetimi ve metinlerin çevirisi
-_locales/          Türkçe (tr) ve İngilizce (en, varsayılan) arayüz metinleri
-icons/icon.svg     Simgenin kaynağı (32 piksel ve üstü)
-icons/icon-small.svg  16 piksel için sadeleştirilmiş kaynak
-icons/*.png        SVG'lerden üretilen 16/32/48/96/128 piksel simgeler
-tools/render-icons.sh  Simge PNG'lerini üreten betik
-web-ext-config.mjs Paket dışında kalacak geliştirme dosyalarının listesi
-test/              node:test + jsdom birim testleri
-docs/store/        Mağaza ve README görselleri, TR ve EN (pakete girmez)
-docs/brand/        Marka kiti: logo, renkler, yazı tipleri (pakete girmez)
-```
-
-## Lisans
-
-[MIT](LICENSE) © Yakup Emre Yerli
+MIT — see [LICENSE](LICENSE). The logo's W is drawn from [Newsreader](https://fonts.google.com/specimen/Newsreader) (SIL Open Font License 1.1).

@@ -67,7 +67,7 @@ PNG'leri elle düzenleme; SVG'yi değiştirip betiği yeniden çalıştır.
   çalışır; `window`, `document` veya `localStorage` kullanma.
 - Yeni izin talep etmekten kaçın. Gerekiyorsa pull request açıklamasında gerekçesini
   yaz — `manifest.json` izin listesi `test/manifest.test.js` tarafından sabitlenmiştir.
-- README ve README.en.md'deki iddialar koddan doğrulanabilir olmalı. Davranışı
+- README.md, README.tr.md ve docs/how-it-works.md'deki iddialar koddan doğrulanabilir olmalı. Davranışı
   değiştirdiysen iki dosyayı da güncelle.
 
 ## Commit mesajları

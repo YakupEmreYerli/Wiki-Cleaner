@@ -8,6 +8,8 @@ export default {
     'web-ext-artifacts/**',
     'imzali/**',
     'CHANGELOG.md',
+    'README.md',
+    'README.tr.md',
     'icons/*.svg',
     'docs/**',
     'package.json',

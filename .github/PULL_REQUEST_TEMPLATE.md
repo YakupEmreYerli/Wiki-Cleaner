@@ -13,4 +13,4 @@
 - [ ] `npm test` yerelde yeşil
 - [ ] `npm run lint` yerelde yeşil
 - [ ] Davranış değişikliği için test eklendi veya güncellendi
-- [ ] Kod ile README/README.en.md arasındaki iddialar hâlâ tutarlı
+- [ ] Kod ile README.md/README.tr.md/docs/how-it-works.md arasındaki iddialar hâlâ tutarlı

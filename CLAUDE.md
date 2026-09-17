@@ -7,7 +7,9 @@ işaretlerini gizleyen tarayıcı eklentisi. Manifest V3; tek paket Firefox ≥ 
 Chrome ≥ 120 (`manifest.json`). Firefox'ta AMO'da yayında, Chrome Web Store'da değil.
 Arayüz metinleri `_locales/{en,tr}/messages.json` içinde (varsayılan `en`); yeni metin
 her iki dosyaya birden eklenir, `test/manifest.test.js` anahtar eşitliğini denetler.
-Davranış, mimari ve bilinen sınırlar: `README.md` (İngilizcesi `README.en.md`).
+Tanıtım: `README.md` (İngilizce, ana) ve `README.tr.md`. Davranış, mimari ve bilinen sınırlar:
+`docs/how-it-works.md`. Sürüm notları `CHANGELOG.md` (İngilizce); etiket atınca yayın akışı
+(`.github/workflows/release.yml`) bu dosyadan okur.
 
 ## Komutlar
 
@@ -46,8 +48,9 @@ Kaynak: `CONTRIBUTING.md`, aksi belirtilmedikçe.
   davranışı test ederken `await flush()` çağır.
 - **PNG simgeleri elle düzenlenmez.** `icons/icon.svg` (≥ 32 px) ya da
   `icons/icon-small.svg` (16 px) değişir, sonra `npm run icons`.
-- **README.md ve README.en.md birlikte güncellenir;** içlerindeki iddialar koddan
-  doğrulanabilir olmalı.
+- **README.md ve README.tr.md birlikte güncellenir;** iddialar (onlar ve
+  `docs/how-it-works.md`) koddan doğrulanabilir olmalı. Yapı örneği: `mcp-firefly-iii` README'si.
+- **Her sürüm `CHANGELOG.md`'ye İngilizce bölümle girer;** bölüm yoksa yayın akışı durur.
 - **Lint beyaz listesi bilinçli karardır.** `tools/lint-extension.mjs` içindeki
   `IZIN_VERILEN_UYARILAR` şu an yalnızca `BACKGROUND_SERVICE_WORKER_IGNORED` içerir
   (manifest'teki çift `background` tanımının beklenen uyarısı). Yeni giriş eklemek

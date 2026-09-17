@@ -1,31 +1,10 @@
-<img src="icons/icon.svg" width="72" height="72" alt="Wiki Cleaner logo" />
+# How Wiki Cleaner works
 
-# Wiki Cleaner
+The whole extension is three small scripts and one stored boolean. This page is the
+reference behind the [README](../README.md); every claim here is checked by the tests in
+`test/`.
 
-[![CI](https://github.com/YakupEmreYerli/Wiki-Cleaner/actions/workflows/ci.yml/badge.svg)](https://github.com/YakupEmreYerli/Wiki-Cleaner/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![AMO](https://img.shields.io/amo/v/wiki-cleaner?label=Firefox%20Add-ons&logo=firefoxbrowser&logoColor=white&color=FF7139)](https://addons.mozilla.org/firefox/addon/wiki-cleaner/)
-[![Firefox](https://img.shields.io/badge/Firefox-%E2%89%A5%20142.0-FF7139?logo=firefoxbrowser&logoColor=white)](manifest.json)
-[![Chrome](https://img.shields.io/badge/Chrome-%E2%89%A5%20120-4285F4?logo=googlechrome&logoColor=white)](manifest.json)
-[![Manifest](https://img.shields.io/badge/manifest-v3-informational)](manifest.json)
-[![Dependencies](https://img.shields.io/badge/runtime%20dependencies-0-success)](package.json)
-
-A browser extension that turns internal Wikipedia links into unclickable plain text
-and hides citation markers, so reading an article stops feeling like resisting
-"just one more tab".
-
-It uses Manifest V3, and a single package is declared to run in both Firefox and
-Chrome. The interface follows the browser language: Turkish or English.
-
-<a href="https://addons.mozilla.org/firefox/addon/wiki-cleaner/"><img src="https://img.shields.io/badge/Add%20to%20Firefox-FF7139?style=for-the-badge&logo=firefoxbrowser&logoColor=white" alt="Add to Firefox" /></a>
-
-> 🇹🇷 Türkçe sürüm: [README.md](README.md)
-
-![Wiki Cleaner: every blue word is another tab](docs/store/en-1.png)
-
-![Before and after: the same paragraph with links turned into plain text](docs/store/en-2.png)
-
-## What it does
+## What it changes
 
 | Behaviour | Implementation |
 | --- | --- |
@@ -37,7 +16,7 @@ Chrome. The interface follows the browser language: Turkish or English.
 | Remembers the preference | State lives in the `enabled` boolean in `chrome.storage.local`, defaulting to `true` |
 | Restores cleanly | `href`, the page's own inline style, the class and `onclick` are all reverted |
 
-### What it leaves alone
+## What it leaves alone
 
 Cleaning is scoped to `#mw-content-text`, so the sidebar, top navigation and page
 footer are out of range by construction. Inside the article body, links under any
@@ -84,51 +63,6 @@ Three moving parts:
 3. **`background.js`** creates the context menu on install, seeds the default
    state, and on click flips the state and messages the *clicked* tab.
 
-## Installation
-
-### Firefox
-
-Published on AMO:
-**[addons.mozilla.org/firefox/addon/wiki-cleaner](https://addons.mozilla.org/firefox/addon/wiki-cleaner/)**
-
-### Chrome
-
-Not published on the Chrome Web Store yet. Until then, enable **Developer mode**
-on `chrome://extensions` and use **Load unpacked** on the project directory.
-
-### Developer install (Firefox)
-
-1. Open `about:debugging` in Firefox.
-2. Choose **This Firefox** in the left menu.
-3. Click **Load Temporary Add-on…**.
-4. Pick the `manifest.json` file in the project directory.
-
-Temporary add-ons are removed when Firefox restarts. Run `npm run build` to
-produce a packaged `.zip` under `web-ext-artifacts/`.
-
-## Development
-
-```bash
-npm install
-```
-
-| Command | What it does |
-| --- | --- |
-| `npm test` | Runs the unit tests with `node:test` + `jsdom` |
-| `npm run lint` | Validates the add-on with `web-ext lint`, treating warnings as errors |
-| `npm run build` | Produces a distributable `.zip` in `web-ext-artifacts/` |
-| `npm run icons` | Re-renders the PNG icons from `icons/*.svg` (requires `librsvg`) |
-| `npm audit --audit-level=critical` | Audits the development dependencies |
-
-The tests back the `chrome.*` APIs with a narrow stub in `test/helpers.js` and load
-the real `popup.html`, which also verifies the `toggle-status` contract between the
-markup and the script. The `chrome.i18n` stub reads the real `_locales` files. See
-[CONTRIBUTING.md](CONTRIBUTING.md) for details.
-
-CI runs the tests on Node 22/24 for every push and pull request, then runs
-`web-ext lint` and the dependency audit; if both pass it builds the package and
-uploads it as an artifact.
-
 ## Known limits
 
 - **The background is declared twice.** The manifest follows MDN's cross-browser
@@ -142,15 +76,11 @@ uploads it as an artifact.
 - **Citation hiding is broad.** The injected style hides every `.reference` element
   on the page, including the back-links in the "References" section.
 
-## Privacy
-
-The add-on makes no network requests, collects no data and loads no remote code.
-The only thing it stores is the `enabled` preference, and it never leaves the
-device. See [SECURITY.md](SECURITY.md).
-
 ## Project layout
 
 ```
+README.md          Overview (English); README.tr.md is the Turkish version
+CHANGELOG.md       Release notes, read by the release workflow
 manifest.json      Add-on definition, permissions and Firefox target
 content.js         DOM work: neutralise/restore plus the MutationObserver
 background.js      Context menu and default-state setup
@@ -163,10 +93,7 @@ icons/*.png        16/32/48/96/128 px icons rendered from the SVGs
 tools/render-icons.sh  Script that renders the icon PNGs
 web-ext-config.mjs Development files kept out of the package
 test/              node:test + jsdom unit tests
+docs/how-it-works.md  This page
 docs/store/        Store and README images, TR and EN (not packaged)
 docs/brand/        Brand kit: logo, colours, typefaces (not packaged)
 ```
-
-## License
-
-[MIT](LICENSE) © Yakup Emre Yerli
