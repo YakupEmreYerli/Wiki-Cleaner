@@ -2,14 +2,14 @@
 """AMO mağaza sayfasını günceller: varsayılan dil, simge ve ekran görüntüleri.
 
 Eklentinin kendisi `web-ext sign` ile yayımlanır; bu betik yalnızca listeleme
-bilgisini yazar. AMO'nun istek sınırı günlüktür ve aşılırsa bütün uç noktalar
-saatlerce 429 döner, o yüzden betik tek seferde çalışır ve 429'da durur.
+bilgisini yazar. AMO'nun istek sınırı dakikalıktır: 429 yanıtı "Expected available in N seconds"
+der; betik o kadar bekleyip yeniden dener (en fazla 6 kez), sonra durur.
 
 Kullanım (anahtarlar kasadan, değerleri basılmadan):
   key-vault calistir amo_jwt_issuer=AMO_ISS amo_jwt_secret=AMO_SEC -- \
     python3 tools/amo-magaza.py
 """
-import base64, hashlib, hmac, json, os, sys, time, urllib.error, urllib.request, uuid
+import base64, hashlib, hmac, json, os, re, sys, time, urllib.error, urllib.request, uuid
 from pathlib import Path
 
 KOK = Path(__file__).resolve().parent.parent
@@ -42,15 +42,29 @@ def jwt() -> str:
 
 
 def cagir(yontem, yol, veri=None, ham=None, ctype="application/json"):
+    for _ in range(6):
+        durum, sonuc = _cagir(yontem, yol, veri, ham, ctype)
+        if durum != 429:
+            return durum, sonuc
+        bekle = re.search(r"available in (\d+) seconds", str(sonuc))
+        sure = int(bekle.group(1)) + 2 if bekle else 60
+        print(f"istek sınırı, {sure} sn bekleniyor", flush=True)
+        time.sleep(sure)
+    return durum, sonuc
+
+
+def _cagir(yontem, yol, veri=None, ham=None, ctype="application/json"):
     govde = ham if ham is not None else (json.dumps(veri).encode() if veri is not None else None)
     istek = urllib.request.Request(
         "https://addons.mozilla.org/api/v5" + yol, data=govde, method=yontem,
         headers={"Authorization": "JWT " + jwt(), "Content-Type": ctype})
     try:
-        with urllib.request.urlopen(istek) as yanit:
+        with urllib.request.urlopen(istek, timeout=60) as yanit:
             return yanit.status, json.loads(yanit.read() or b"{}")
     except urllib.error.HTTPError as hata:
         return hata.code, hata.read().decode()[:400]
+    except (urllib.error.URLError, TimeoutError) as hata:
+        return 0, f"bağlantı: {hata}"
 
 
 def cok_parcali(alanlar, dosya_alani, yol_png, yontem, yol):
@@ -80,7 +94,8 @@ def main():
         durum, sonuc = cagir("PATCH", ADDON, {"default_locale": "en-US"})
         if durum == 400 and "support_email" in str(sonuc):
             # Destek e-postası yok; AMO yine de varsayılan dilde bir değer istiyor.
-            durum, sonuc = cagir("PATCH", ADDON, {"default_locale": "en-US", "support_email": {"en-US": None}})
+            # Dil başına null ya da boş metin kabul edilmiyor; alanın tamamı null gönderilir.
+            durum, sonuc = cagir("PATCH", ADDON, {"default_locale": "en-US", "support_email": None})
         if durum == 429:
             dur(2, f"istek sınırı: {sonuc}")
         print(f"dil: {durum} {sonuc if isinstance(sonuc, str) else sonuc['default_locale']}", flush=True)
@@ -92,12 +107,15 @@ def main():
 
     if len(yanit["previews"]) == 0:
         for sira, altyazi in enumerate(ALTYAZI):
+            # Çok parçalı istekte çevrilmiş alan nesne olarak gönderilemiyor: önce görsel, sonra
+            # açıklama JSON ile ayrı PATCH.
             durum, sonuc = cok_parcali(
-                {"caption": json.dumps(altyazi), "position": str(sira)}, "image",
+                {"position": str(sira)}, "image",
                 KOK / f"docs/store/en-{sira + 1}.png", "POST", ADDON + "previews/")
-            if durum == 429:
-                dur(2, f"istek sınırı: {sonuc}")
-            print(f"görsel {sira + 1}: {durum}", flush=True)
+            if durum not in (200, 201):
+                dur(1, f"görsel {sira + 1}: {durum} {sonuc}")
+            durum2, sonuc2 = cagir("PATCH", ADDON + f"previews/{sonuc['id']}/", {"caption": altyazi})
+            print(f"görsel {sira + 1}: {durum}, açıklama: {durum2}", flush=True)
             time.sleep(3)
 
     durum, yanit = cagir("GET", ADDON)
