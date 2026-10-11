@@ -38,7 +38,9 @@ anlamı taşıdığı yerde kullanılır.
 - **Metin:** [Hanken Grotesk](https://fonts.google.com/specimen/Hanken+Grotesk) 400–600.
 - **Eklenti içinde** yazı tipi taşınmaz: başlık `'Linux Libertine', Georgia, Times, serif`
   (Wikipedia'nın kendi başlık yığını), metin `system-ui`.
-- İkisi de SIL Open Font License 1.1.
+- İkisi de SIL Open Font License 1.1. Banner için `fonts/` altında, google/fonts deposundaki
+  hâlleriyle (`ofl/newsreader/Newsreader[opsz,wght].ttf`, `ofl/hankengrotesk/HankenGrotesk[wght].ttf`)
+  ve lisans metinleriyle (`OFL-Newsreader.txt`, `OFL-HankenGrotesk.txt`) duruyor.
 
 ## Dil
 
@@ -48,5 +50,15 @@ Kısa, somut, okurun tarafından. Ana cümle: **"Every blue word is another tab.
 
 ## Görseller
 
-`docs/store/` mağaza setini (1280×800, TR ve EN), `docs/social-preview.png` GitHub
-paylaşım görselini (1280×640) tutar.
+`docs/store/` mağaza setini (1280×800, TR ve EN) tutar. `docs/banner.en.png` GitHub
+paylaşım görseli ve İngilizce README'nin başındaki görsel, `docs/banner.tr.png` Türkçe
+README'ninki (1280×640).
+
+İki banner'ın kaynağı `banner.html`: iki dilin metni sayfanın içinde, dil `?lang=en` ya da
+`?lang=tr` ile seçilir. PNG'leri elle düzenleme; sayfayı değiştirip yeniden üret:
+
+```bash
+npm run banner   # tools/render-banner.mjs; başsız Chrome/Chromium, CHROME=/yol/chrome ile başkası
+```
+
+Yazı tipleri `fonts/` altından gelir, sistemde kurulu olmaları gerekmez.

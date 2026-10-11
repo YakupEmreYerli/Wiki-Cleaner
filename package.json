@@ -30,7 +30,8 @@
     "lint": "node tools/lint-extension.mjs",
     "build": "web-ext build --source-dir .",
     "build:chromium": "node tools/build-chromium.mjs",
-    "icons": "./tools/render-icons.sh"
+    "icons": "./tools/render-icons.sh",
+    "banner": "node tools/render-banner.mjs"
   },
   "devDependencies": {
     "jsdom": "^30.0.1",

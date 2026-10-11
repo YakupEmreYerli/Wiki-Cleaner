@@ -8,7 +8,7 @@ Bir Wikipedia maddesindeki her mavi kelime bir sekme daha açmaya davettir. Wiki
 
 <a href="https://addons.mozilla.org/tr/firefox/addon/wiki-cleaner/"><img src="https://img.shields.io/badge/Firefox%27a%20ekle-3366CC?style=for-the-badge&logo=firefoxbrowser&logoColor=white" alt="Wiki Cleaner'ı Firefox'a ekle"></a>
 
-![Wiki Cleaner: her mavi kelime yeni bir sekme](docs/store/tr-1.png)
+![Wiki Cleaner: her mavi kelime yeni bir sekme](docs/banner.tr.png)
 
 Hiçbir şey okumaz, hiçbir şey göndermez: ağ isteği yok, veri toplama yok, uzaktan kod yok. Sakladığı tek şey açık olup olmadığı. Her sürüm test edilir, Mozilla tarafından imzalanır ve etiketli bir commit'ten CI ile yayımlanır.
 

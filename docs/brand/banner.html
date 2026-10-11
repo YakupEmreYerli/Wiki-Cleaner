@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- GitHub paylaşım görseli ve README başlığı, 1280×640. Dil: ?lang=en (varsayılan) ya da ?lang=tr.
+     PNG'leri tools/render-banner.mjs üretir: docs/banner.en.png, docs/banner.tr.png -->
+<style>
+  @font-face { font-family: "Newsreader"; src: url("fonts/Newsreader.ttf") format("truetype"); font-weight: 200 800; }
+  @font-face { font-family: "Hanken Grotesk"; src: url("fonts/HankenGrotesk.ttf") format("truetype"); font-weight: 100 900; }
+  :root { --ink: #202122; --blue: #3366cc; --muted: #54595d; --faint: #72777d; }
+  html, body { margin: 0; padding: 0; }
+  body { width: 1280px; height: 640px; background: #fff; position: relative; overflow: hidden;
+         font-family: "Hanken Grotesk", sans-serif; color: var(--ink); }
+  .brand { position: absolute; left: 84px; top: 72px; display: flex; align-items: center; gap: 12px;
+           font-weight: 600; font-size: 18px; }
+  .brand img { width: 40px; height: 40px; display: block; }
+  h1 { position: absolute; left: 84px; top: 170px; margin: 0;
+       font-family: "Newsreader", serif; font-weight: 400; font-size: 83px;
+       line-height: 87px; letter-spacing: -0.015em; color: var(--ink); white-space: nowrap; }
+  h1 .link { color: var(--blue); text-decoration: underline; text-decoration-thickness: 3px;
+             text-underline-offset: 8px; }
+  p.lede { position: absolute; left: 84px; top: 390px; margin: 0; width: 560px;
+           font-size: 20.6px; line-height: 30px; color: var(--muted); }
+  .url { position: absolute; left: 84px; top: 558px; font-size: 17px; color: var(--faint); }
+  .mark { position: absolute; left: 820px; top: 150px; width: 340px; height: 340px; display: block; }
+</style>
+</head>
+<body>
+  <div class="brand"><img src="logo.svg" alt=""><span>Wiki Cleaner</span></div>
+  <h1 id="h1"></h1>
+  <p class="lede" id="lede"></p>
+  <div class="url">github.com/YakupEmreYerli/Wiki-Cleaner</div>
+  <img class="mark" src="logo.svg" alt="">
+<script>
+  const TEXT = {
+    en: { pre: "Every ", link: "blue word", post: "<br>is another tab.",
+          lede: "A Firefox extension that turns Wikipedia's internal links into plain text and hides citation markers." },
+    tr: { pre: "Her ", link: "mavi kelime", post: "<br>yeni bir sekme.",
+          lede: "Wikipedia'daki dahili bağlantıları düz metne çeviren ve atıf işaretlerini gizleyen bir Firefox eklentisi." },
+  };
+  const lang = new URLSearchParams(location.search).get("lang") || "en";
+  const t = TEXT[lang];
+  document.documentElement.lang = lang;
+  document.getElementById("h1").innerHTML = t.pre + '<span class="link">' + t.link + "</span>" + t.post;
+  document.getElementById("lede").textContent = t.lede;
+</script>
+</body>
+</html>

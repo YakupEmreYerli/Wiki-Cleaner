@@ -91,9 +91,10 @@ icons/icon.svg     Icon source (32 px and up)
 icons/icon-small.svg  Simplified source for 16 px
 icons/*.png        16/32/48/96/128 px icons rendered from the SVGs
 tools/render-icons.sh  Script that renders the icon PNGs
+tools/render-banner.mjs  Script that renders the README banners from docs/brand/banner.html
 web-ext-config.mjs Development files kept out of the package
 test/              node:test + jsdom unit tests
 docs/how-it-works.md  This page
 docs/store/        Store and README images, TR and EN (not packaged)
-docs/brand/        Brand kit: logo, colours, typefaces (not packaged)
+docs/brand/        Brand kit: logo, colours, typefaces, banner source (not packaged)
 ```

@@ -8,7 +8,7 @@ Every blue word in a Wikipedia article is an invitation to open one more tab. Wi
 
 <a href="https://addons.mozilla.org/firefox/addon/wiki-cleaner/"><img src="https://img.shields.io/badge/Get%20it%20for%20Firefox-3366CC?style=for-the-badge&logo=firefoxbrowser&logoColor=white" alt="Get Wiki Cleaner for Firefox"></a>
 
-![Wiki Cleaner: every blue word is another tab](docs/store/en-1.png)
+![Wiki Cleaner: every blue word is another tab](docs/banner.en.png)
 
 It reads nothing and sends nothing: no network requests, no data collection, no remote code. The only thing it stores is whether it is switched on. Every release is tested, signed by Mozilla and published by CI from a tagged commit.
 
