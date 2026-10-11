@@ -18,7 +18,9 @@ export default {
     'CONTRIBUTING.md',
     'SECURITY.md',
     'CLAUDE.md',
-    'AGENTS.md'
+    'AGENTS.md',
+    // Local code graph (git-ignored); without this it ends up in lint and in the package.
+    'graphify-out/**'
   ],
   build: {
     overwriteDest: true
